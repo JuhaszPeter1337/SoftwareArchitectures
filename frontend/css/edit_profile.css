@@ -191,11 +191,11 @@ span{
 }
 
 .edit-div{
-   height: 240px;
+   height: 565px;
    width: 800px;
    margin-left: 600px;
    border: 2px solid white;
-   margin-top: 250px;
+   margin-top: 120px;
 }
 
 h5{
@@ -294,4 +294,72 @@ h6{
 .login_btn:hover{
   color: black;
   background-color: white;
+}
+
+.interests{
+  border-bottom: 1px solid white;
+  border-top: 1px solid white;
+  margin-bottom: 5px;
+}
+
+.interests_header{
+  border-bottom: 1px solid white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.interests_block{
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.interests_first_div{
+  width: 450px;
+}
+
+.interests_second_div{
+  width: 450px;
+}
+
+.languages{
+  border-bottom: 1px solid white;
+  margin-bottom: 5px;
+}
+
+.languages_header{
+  border-bottom: 1px solid white;
+}
+
+.languages-block-header{
+  border-top: 2px solid white;
+}
+
+.languages_block{
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid white;
+}
+
+.languages_first_div{
+  width: 450px;
+}
+
+.languages_second_div{
+  width: 450px;
+}
+
+label{
+  font-size: 1rem;
+  margin-left: 5px;
+  color: white;
+}
+
+input{
+  width: 18px;
+  height: 18px;
+  margin-left: 30px;
 }
