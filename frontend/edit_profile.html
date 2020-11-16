@@ -1,0 +1,93 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+   <!--Made with love by Mutiullah Samim -->
+   
+	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+    <!--Fontawesome CDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+	<!--Custom styles-->
+	<link rel="stylesheet" href="css/edit_profile.css" />
+</head>
+<body>
+<header>
+	<nav role="navigation">
+        <div id="menuToggle">
+          <!--
+          A fake / hidden checkbox is used as click reciever,
+          so you can use the :checked selector on it.
+          -->
+          <input type="checkbox" />
+          
+          <!--
+          Some spans to act as a hamburger.
+          
+          They are acting like a real hamburger,
+          not that McDonalds stuff.
+          -->
+          <span></span>
+          <span></span>
+          <span></span>
+          
+          <!--
+          Too bad the menu has to be inside of the button
+          but hey, it's pure CSS magic.
+          -->
+          <ul id="menu">
+            <a href="/edit_profile.html"><li>Edit profile</li></a>
+            <a href="#"><li>Favorites</li></a>
+            <a href="/index.html"><li>Logout</li></a>
+          </ul>
+        </div>
+
+        <div class="logo_pic">
+            <img src="img/icon.JPG" width="60" height="60">
+            Event Finder
+        </div>
+      </nav>
+</header>
+
+<div class="outside">
+    <div class="edit-div">
+        <h5>Account settings:</h5>
+
+        <div class="username-div">
+            <div class="username-header">
+                <h6>Username</h6>
+            </div>
+            <div class="username">
+                <h6>JuhaszPeter</h6>
+            </div>
+            <div class="edit-username">
+                <button class="btn info">Edit</button>
+            </div>
+        </div>
+
+        <div class="password-div">
+            <div class="password-header">
+                <h6>Password</h6>
+            </div>
+            <div class="password">
+                <h6>******************</h6>
+            </div>
+            <div class="edit-password">
+                <button class="btn info">Edit</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <form action="/main.html" method="post">
+                <input type="submit" id="finish_button" value="Finish" class="btn float-right login_btn">
+            </form>
+        </div>
+    </div>
+</div>

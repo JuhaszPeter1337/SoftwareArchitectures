@@ -1,0 +1,156 @@
+nav{
+    background-color: black;
+    height: 90px;
+}
+
+.logo_pic{
+    font-size: 30px;
+    font-style: bold;
+    color: white;
+    display: block;
+    position: relative;
+    top: 16px;
+    left: 30px;
+}
+
+html,body{
+    background-color:#101010;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+h3{
+    font-size: 60px;
+    color: white;
+    text-align: center;
+}
+
+.interests{
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    margin-bottom: 5px;
+}
+
+.interests_header{
+    border-bottom: 1px solid white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.interests_block{
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.interests_first_div{
+    width: 450px;
+}
+
+.interests_second_div{
+    width: 450px;
+}
+
+.languages{
+    border-bottom: 1px solid white;
+    margin-bottom: 5px;
+}
+
+.languages_header{
+    border-bottom: 1px solid white;
+}
+
+.languages_block{
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.languages_first_div{
+    width: 450px;
+}
+
+.languages_second_div{
+    width: 450px;
+}
+
+h4{
+    font-size: 45px;
+    color: white;
+    text-align: center;
+}
+
+.container{
+    height: 100%;
+    align-content: center;
+}
+
+.card{
+    height: 635px;
+    margin-top: 80px;
+    margin-bottom: auto;
+    width: 830px;
+    background-color: #101010;
+    border: 1px solid white;
+}
+
+.card-header h3{
+    color: white;
+}
+
+.input-group-prepend span{
+    width: 50px;
+    background-color: #FFC312;
+    color: black;
+    border:0 !important;
+}
+
+input:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.login_btn{
+    color: black;
+    background-color: #FFC312;
+    width: 150px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.login_btn:hover{
+    color: black;
+    background-color: white;
+}
+
+.links{
+    color: white;
+}
+
+.links a{
+    margin-left: 4px;
+}
+
+.btn{
+    margin-top: 10px;
+}
+
+.card-footer a{
+    margin-left: 10px;
+}
+
+label{
+    font-size: 24px;
+    margin-left: 5px;
+    color: white;
+}
+
+input{
+    width: 18px;
+    height: 18px;
+    margin-left: 30px;
+}
