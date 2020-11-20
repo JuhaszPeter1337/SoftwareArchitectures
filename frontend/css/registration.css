@@ -33,7 +33,7 @@ h3{
 }
 
 .card{
-    height: 350px;
+    height: 400px;
     margin-top: 170px;
     margin-bottom: auto;
     width: 430px;
@@ -82,4 +82,13 @@ input:focus{
 
 .card-footer a{
     margin-left: 10px;
+}
+
+#message{
+    font-size: 20px;
+}
+
+.check-div{
+    width: 100%;
+    text-align: center;
 }

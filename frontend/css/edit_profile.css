@@ -185,7 +185,7 @@ span{
 
 .outside{
   background-color: #101010;
-  height: 100%;
+  height: 1000px;
   margin: 0px;
   display: flex;
 }
