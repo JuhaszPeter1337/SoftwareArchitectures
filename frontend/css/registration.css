@@ -23,6 +23,7 @@ html,body{
 
 h3{
     font-size: 60px;
+    margin-bottom: 0px;
     color: white;
     text-align: center;
 }
@@ -33,12 +34,16 @@ h3{
 }
 
 .card{
-    height: 400px;
-    margin-top: 170px;
+    height: 835px;
+    margin-top: 5px;
     margin-bottom: auto;
-    width: 430px;
+    width: 830px;
     background-color: #101010;
     border: 1px solid white;
+}
+
+.card-body{
+    flex: 0 0 auto;
 }
 
 .card-header h3{
@@ -60,7 +65,9 @@ input:focus{
 .login_btn{
     color: black;
     background-color: #FFC312;
-    width: 100px;
+    width: 150px;
+    height: 50px;
+    margin-right: 20px;
 }
 
 .login_btn:hover{
@@ -90,5 +97,79 @@ input:focus{
 
 .check-div{
     width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.interests{
+    border-bottom: 1px solid white;
+    border-top: 1px solid white;
+    margin-bottom: 5px;
+}
+
+.interests_header{
+    border-bottom: 1px solid white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.interests_block{
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.interests_first_div{
+    width: 450px;
+}
+
+.interests_second_div{
+    width: 450px;
+}
+
+.languages{
+    border-bottom: 1px solid white;
+    margin-bottom: 5px;
+}
+
+.languages_header{
+    border-bottom: 1px solid white;
+}
+
+.languages_block{
+    display: flex;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.languages_first_div{
+    width: 450px;
+}
+
+.languages_second_div{
+    width: 450px;
+}
+
+label{
+    font-size: 24px;
+    margin-left: 5px;
+    color: white;
+}
+
+input{
+    width: 18px;
+    height: 18px;
+    margin-left: 30px;
+}
+
+.card-body input{
+    margin-left: 0px;
+}
+
+h4{
+    font-size: 35px;
+    color: white;
     text-align: center;
 }
