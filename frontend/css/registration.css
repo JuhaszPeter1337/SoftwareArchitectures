@@ -68,6 +68,7 @@ input:focus{
     width: 150px;
     height: 50px;
     margin-right: 20px;
+    margin-left: 150px;
 }
 
 .login_btn:hover{
@@ -172,4 +173,15 @@ h4{
     font-size: 35px;
     color: white;
     text-align: center;
+}
+
+#error_message{
+    color: red;
+    font-size: 18px;
+    margin-top: 25px;
+    margin-left: 300px;
+}
+
+.form-group{
+    display: flex;
 }

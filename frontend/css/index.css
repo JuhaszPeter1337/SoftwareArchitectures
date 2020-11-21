@@ -33,7 +33,7 @@ h3{
 }
 
 .card{
-    height: 350px;
+    height: 370px;
     margin-top: 170px;
     margin-bottom: auto;
     width: 400px;
@@ -78,6 +78,8 @@ input:focus{
 
 .btn{
     margin-top: 10px;
+    width: 100px;
+    height: 50px;
 }
 
 .card-footer a{

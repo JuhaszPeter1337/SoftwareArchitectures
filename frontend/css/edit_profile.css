@@ -191,7 +191,7 @@ span{
 }
 
 .edit-div{
-   height: 565px;
+   height: 585px;
    width: 800px;
    margin-left: 600px;
    border: 2px solid white;
@@ -211,76 +211,17 @@ h6{
     color: white;
 }
 
-.username-div{
-  display: flex;
-  border-bottom: 2px solid white;
-}
-
-.username-header{
-  width: 100px;
-}
-
-.username-header h6{
-  margin-left: 30px;
-  font-style: italic;
-  margin-top: 10px;
-}
-
-.username{
-  width: 400px;
-}
-
-.username h6{
-  margin-left: 100px;
-  margin-top: 10px;
-}
-
 .btn {
   border: none;
   background-color: inherit;
   font-size: 16px;
   cursor: pointer;
-  display: inline-block;
-  margin-left: 200px;
   width: 60px;
   height: 30px;
+  margin-left: 30px;
 }
 
 .info {color: dodgerblue;}
-
-.edit-username{
-    margin-top: 0px;
-    margin-bottom: 10px;
-}
-
-.password-div{
-  display: flex;
-  border-bottom: 2px solid white;
-}
-
-.password-header{
-  width: 100px;
-}
-
-.password-header h6{
-  margin-left: 30px;
-  font-style: italic;
-  margin-top: 18px;
-}
-
-.password{
-  width: 400px;
-}
-
-.password h6{
-  margin-left: 100px;
-  margin-top: 18px;
-}
-
-.edit-password{
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
 
 .login_btn{
   color: black;
@@ -359,7 +300,57 @@ label{
 }
 
 input{
-  width: 18px;
-  height: 18px;
+  width: 200px;
+  height: 30px;
   margin-left: 30px;
+  text-align: center;
+}
+
+.interests_block input{
+  height: 18px;
+  width: 18px;
+}
+
+.languages_block input{
+  height: 18px;
+  width: 18px;
+}
+
+.in-h5 h5{
+  border-top: 2px solid white;
+}
+
+#usnamel{
+  margin-top: 10px;
+  width: 100px;
+  margin-left: 20px;
+}
+
+#unamei{
+  margin-top: 10px;
+  width: 250px;
+}
+
+#passl{
+  width: 100px;
+  margin-left: 20px;
+}
+
+#passi{
+  width: 250px;
+  margin-left: 33px;
+}
+
+.edit-username{
+  margin-top: 0px;
+  margin-bottom: 10px;
+  width: 50px;
+  display: flex;
+}
+
+.edit-password{
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 50px;
 }

@@ -8,12 +8,11 @@ var check = function() {
       document.getElementById('message').innerHTML = 'Password is not matching';
       document.getElementById("next_button").disabled = true;
     }
-  }
+}
 
-function write_to_console() {
+async function sendDatas() {
     var usernameValue = document.getElementById("uniqueusername").value;
     var passwordValue = document.getElementById("mypassword").value;
-    var password_againValue = document.getElementById("mypassword_again").value;
 
     var interests1 = document.getElementById("interests1").checked;
     var interests2 = document.getElementById("interests2").checked;
@@ -28,7 +27,20 @@ function write_to_console() {
     var language4 = document.getElementById("language4").checked;
     var language5 = document.getElementById("language5").checked;
     var language6 = document.getElementById("language6").checked;
-  
-    console.log("Username: ", usernameValue, "\n" ,  "Password: ", passwordValue, "\n", "Password again: ", password_againValue);
-    console.log("Watching Sport: ", interests1, "\n" ,  "Playing sport: ", interests2, "\n", "Cinema: ", interests3);      
+
+    var user = sessionStorage.getItem("user");
+
+    user.setUsername(usernameValue);
+    user.setPassword(passwordValue);
+
+    user.setInterests(interests1, interests2, interests3, interests4, interests5, interests6);
+    user.setLanguages(language1, language2, language3, language4, language5, language6);
+
+    sessionStorage.setItem("user", user);
+
+    try {
+      await connection.invoke("RegisterReq", user);
+    } catch (err) {
+      console.error(err);
+    }
 }
