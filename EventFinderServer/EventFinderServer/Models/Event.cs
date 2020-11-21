@@ -23,7 +23,7 @@ namespace EventFinderServer.Models
 
         public EventDTO MakeDTO()
         {
-            var res = new EventDTO { event_id = EventId, title = Title, description = Description, begining = BeginTime.ToString(), ending = EndTime.ToString() };
+            var res = new EventDTO { event_id = EventId, title = Title, description = Description, beginning = BeginTime.ToString(), ending = EndTime.ToString() };
             res.messages = new MessageDTO[Messages.Count];
             res.image = "data:image/jpeg;base64, " + Convert.ToBase64String(File.ReadAllBytes(Path.Combine(ImageRoot, ImageLocation)));
 

@@ -11,7 +11,7 @@ namespace EventFinderServer.DTOs
         public string title { get; set; }
         public string description { get; set; }
         public string image { get; set; }
-        public string begining { get; set; }
+        public string beginning { get; set; }
         public string ending { get; set; }
         public MessageDTO[] messages { get; set; }
     }

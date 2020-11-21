@@ -6,6 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\football.JPG" />
+    <None Remove="Images\hiking.JPG" />
+    <None Remove="Images\museum.JPG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\football.JPG" />
+    <Content Include="Images\hiking.JPG" />
+    <Content Include="Images\museum.JPG" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="NLog" Version="4.7.5" />
     <PackageReference Include="NLog.Config" Version="4.7.5" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
