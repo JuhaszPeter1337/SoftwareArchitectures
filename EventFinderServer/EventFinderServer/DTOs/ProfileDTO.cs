@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EventFinderServer.DTOs
 {
-    public enum Interests { WatchSports, PlaySorts, Cinema, Museum, Hiking, Cooking }
+    public enum Interests { WatchSports, PlaySports, Cinema, Museum, Hiking, Cooking }
     public enum Languages { English, German, French, Spanish, Russian, Hungarian}
 
     public class ProfileDTO

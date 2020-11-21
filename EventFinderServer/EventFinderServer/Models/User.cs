@@ -1,7 +1,5 @@
-﻿using System;
+﻿using EventFinderServer.DTOs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventFinderServer.Models
 {
@@ -17,5 +15,10 @@ namespace EventFinderServer.Models
         public bool[] Interests { get; set; }
         public bool[] Languages { get; set; }
         public List<int> Favourites { get; set; }
+
+        public ProfileDTO MakeDTO()
+        {
+            return new ProfileDTO { username = Username, password = null, interests = Interests, languages = Languages, favourites = Favourites };
+        }
     }
 }

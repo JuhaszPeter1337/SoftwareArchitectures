@@ -1,4 +1,4 @@
-var check = function() {
+function check() {
     if (document.getElementById('mypassword').value == document.getElementById('mypassword_again').value) {
       document.getElementById('message').style.color = 'green';
       document.getElementById('message').innerHTML = 'Password is matching';

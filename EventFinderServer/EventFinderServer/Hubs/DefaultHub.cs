@@ -24,6 +24,12 @@ namespace EventFinderServer.Hubs
             await Clients.Others.SendAsync("Message", eventId, user, message);
         }
 
+        public async Task GetEvents(string username)
+        {
+            var events = _dataService.GetEvents(username);
+            await Clients.Caller.SendAsync("Events", events.ToArray());
+        }
+
         public async Task RegisterReq(ProfileDTO user)
         {
             bool success = _dataService.Register(user);
