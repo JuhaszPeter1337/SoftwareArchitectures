@@ -53,11 +53,3 @@ class Profile{
         this.favorites = [];
     }
 }
-
-class Comment{
-    constructor(username, event_id, content){
-        this.event_id = event_id;
-        this.username = username;
-        this.content = content;
-    }
-}

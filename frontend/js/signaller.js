@@ -48,6 +48,13 @@ connection.on("Logout", (success) => {
     }
 });
 
-connection.on("Message", (event_id, user, message) => {
-    
+connection.on("Event", (events) => {
+     $scope.events = events;
 });
+
+connection.on("Message", (event_id, user, message) => {
+     
+});
+
+$scope.events = [];
+document.getElementById("event-image").src = "data:image/png;base64, " + events.image;

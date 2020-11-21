@@ -42,7 +42,7 @@
                 <ul id="menu">
                   <a href="/edit_profile.html"><li>Edit profile</li></a>
                   <a href="#"><li>Favorites</li></a>
-                  <a><li onclick="logout()">Logout</li></a>
+                  <a><li id="log-li" onclick="logout()">Logout</li></a>
                 </ul>
               </div>
 
@@ -56,29 +56,30 @@
       <div class="outside">
           <div class="inside">
             
-            <div class="card">
+            <div class="card" ng-repeat="item in events">
               <div class="card-header">
+                  <div id="event-id">{{item.event_id}}</div>
                   <div class="card-title">
-                    <h5>Football match</h5>
+                    <h5>{{ item.title }}</h5>
                   </div>
 
                   <div class="card-image">
-                    <img src="img/football.JPG">
+                    <img id="event-image">
                   </div>
               </div>
 
               <div class="card-datetime">
                 <div class="card-beginning">
-                  <h5>Beginning: 2020.11.15. 20:45</h5>
+                  <h5>{{ item.beginning }}</h5>
                 </div>
 
                 <div class="card-ending">
-                    <h5>Ending: 2020.11.15. 23:00</h5>
+                    <h5>{{ item.ending }}</h5>
                 </div>
               </div>
 
               <div class="card-description">
-                  <h5>Hungary plays against Serbia. It will be a difficult match for the Hungarian team. Hungary plays at home. Serbs are not the best nowadays but they have a very good footbal team. The football match takes place at Puskas Arena. The price is 15000 Forint. You can buy the ticket online.</h5>
+                  <h5>{{ item.description }}</h5>
               </div>
 
               <div class="add-to-favorites">
@@ -89,20 +90,12 @@
                 <h5>Comment section:</h5>
                 <div class="comment-header">
                     <div class="comment-user">
-                      <h6>JuhaszPeter:</h6>
+                      <h6>{{ item.username }}</h6>
                     </div>
                     <div class="comment">
-                      <h6>I would like to ask how many people can participate at the event? I know it's coronavirus but can at least the 30% go?</h6>
+                      <h6>{{ item.content }}</h6>
                     </div>
                 </div>
-
-                <div class="comment-header">
-                  <div class="comment-user">
-                    <h6>GyarmatiBalint:</h6>
-                  </div>
-                  <div class="comment">
-                    <h6>Yes, you can.</h6>
-                  </div>
 
                   <div class="write-comment">
                     <form>
@@ -118,6 +111,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js" integrity="sha512-0z9zJIjxQaDVzlysxlaqkZ8L9jh8jZ2d54F3Dn36Y0a8C6eI/RFOME/tLCFJ42hfOxdclfa29lPSNCmX5ekxnw==" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
+      <script src="src/angular.min.js" integrity="sha256-zBy1l2WBAh2vPF8rnjFMUXujsfkKjya0Jy5j6yKj0+Q=" crossorigin="anonymous"></script>
       <script src="js/main.js"></script>
       <script src="js/logout.js"></script>
       <script src="js/signaller.js"></script>
