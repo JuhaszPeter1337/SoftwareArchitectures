@@ -28,7 +28,7 @@ async function sendDatas() {
     var language5 = document.getElementById("language5").checked;
     var language6 = document.getElementById("language6").checked;
 
-    var user = sessionStorage.getItem("user");
+    var user = new Profile();
 
     user.setUsername(usernameValue);
     user.setPassword(passwordValue);

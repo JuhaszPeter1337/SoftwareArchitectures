@@ -1,0 +1,5 @@
+frontend/.vscode
+frontend/node_modules
+EventFinderServer/.vs
+EventFinderServer/EventFinderServer/bin
+EventFinderServer/EventFinderServer/obj

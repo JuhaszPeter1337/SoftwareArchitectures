@@ -1,9 +1,9 @@
 $(function () {
     var login = sessionStorage.getItem("login");
-    if(login == true){
+    if(login){
         var user = sessionStorage.getItem("user");
-        if(user == null){
-            window.location.href = "/login.html";
-        }
+    }
+    else{
+        window.location.href = "/index.html";
     }
 });

@@ -1,6 +1,9 @@
-const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/")
-    .configureLogging(signalR.LogLevel.Information)
+connection = new signalR.HubConnectionBuilder()
+    .configureLogging(signalR.LogLevel.Debug)
+    .withUrl("http://localhost:5000/default", {
+      skipNegotiation: true,
+      transport: signalR.HttpTransportType.WebSockets
+    })
     .build();
 
 async function start() {
@@ -22,13 +25,13 @@ connection.on("Registered", (success) => {
     if(success)
         window.location.href = "/index.html";
     else
-        document.getElementById("error_message").text="Username already taken";
+        document.getElementById("error_message").innerHTML="Username already taken";
 });
 
 connection.on("Login", (user) => {
     if(user != null){
         sessionStorage.setItem("login", true);
-        sessionStorage.setItem("user", user);
+        sessionStorage.setItem("user", JSON.stringify(user));
         window.location.href = "/main.html";
     }
 });
@@ -38,7 +41,11 @@ connection.on("LoginFailed", () => {
 });
 
 connection.on("Logout", (success) => {
-    
+    if(success){
+        sessionStorage.setItem("login", false);
+        sessionStorage.removeItem("user");
+        window.location.href = "/index.html";
+    }
 });
 
 connection.on("Message", (event_id, user, message) => {
