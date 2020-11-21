@@ -17,7 +17,6 @@ html,body{
     background-color:#101010;
     height: 100%;
     font-family: 'Numans', sans-serif;
-    overflow-y: hidden;
     overflow-x: hidden;
 }
 
@@ -29,7 +28,6 @@ h3{
 }
 
 .container{
-    height: 100%;
     align-content: center;
 }
 
@@ -122,11 +120,11 @@ input:focus{
 }
 
 .interests_first_div{
-    width: 450px;
+    width: 55%;
 }
 
 .interests_second_div{
-    width: 450px;
+    width: 45%;
 }
 
 .languages{
@@ -146,11 +144,11 @@ input:focus{
 }
 
 .languages_first_div{
-    width: 450px;
+    width: 55%;
 }
 
 .languages_second_div{
-    width: 450px;
+    width: 45%;
 }
 
 label{
