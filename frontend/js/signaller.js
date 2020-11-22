@@ -54,16 +54,27 @@ app.controller("Controller", ["$scope", function($scope) {
 
         connection.on("Events", (events) => {
             $scope.events = events;
+            $scope.hasFavorite = false;
+            $scope.events.forEach(e => {
+                if(e.isfavorite)
+                    $scope.hasFavorite = true;
+            });
             $scope.$apply();
         });
 
         connection.on("AddFav", (id) => {
             $scope.events[id].isfavorite = true;
+            $scope.hasFavorite = true;
             $scope.$apply();
         });
 
         connection.on("RemoveFav", (id) => {
             $scope.events[id].isfavorite = false;
+            $scope.hasFavorite = false;
+            $scope.events.forEach(e => {
+                if(e.isfavorite)
+                    $scope.hasFavorite = true;
+            });
             $scope.$apply();
         });
 

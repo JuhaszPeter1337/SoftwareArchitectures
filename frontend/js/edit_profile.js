@@ -36,13 +36,10 @@ function CheckPassword(inputtxt)
 }
 
 async function sendDatas(){
+
+    var uname = document.getElementById("unamei").value;
     var pass = document.getElementById("passi").value;
     
-    if(pass == "***************")
-        pass=null;
-
-    var check = CheckPassword(pass);
-  
     var interests1 = document.getElementById("interests1").checked;
     var interests2 = document.getElementById("interests2").checked;
     var interests3 = document.getElementById("interests3").checked;
@@ -57,15 +54,25 @@ async function sendDatas(){
     var language5 = document.getElementById("language5").checked;
     var language6 = document.getElementById("language6").checked;
 
+    if(!pass){
+        pass = null;
+        var check = true;
+    }
+    else
+        var check = CheckPassword(pass);
+  
+   
+
     if(check){
         var user = new Profile();
 
+        user.setUsername(uname);
         user.setPassword(pass);
 
         user.setInterests(interests1, interests2, interests3, interests4, interests5, interests6);
         user.setLanguages(language1, language2, language3, language4, language5, language6);
 
-        sessionStorage.setItem("user", user);
+        sessionStorage.setItem("user", JSON.stringify(user));
 
         try {
             await connection.invoke("EditProfile", user);
