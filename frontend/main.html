@@ -82,7 +82,8 @@
               </div>
 
               <div class="add-to-favorites">
-                <h5>Do you like this event? Don't forget to add to your favorites!<form id="{{'fav-' + item.event_id}}" ng-submit="addfavorite(item.event_id)"> Click <button form="{{'fav-' + item.event_id}}" type="submit">here</button> to add to your favorites!</form></h5>
+                <h5 ng-show="!item.isfavorite">Do you like this event? Don't forget to add to your favorites!<form ng-submit="addfavorite(item.event_id)"> Click <button type="submit">here</button> to add to your favorites!</form></h5>
+                <h5 ng-show="item.isfavorite">This event is in your favorites! Remember it is starting at {{item.beginning}}!<form ng-submit="removefavorite(item.event_id)"> Click <button type="submit">here</button> to remove it from your favorites!</form></h5>
               </div>
 
               <div class="comment-section">
@@ -104,6 +105,7 @@
                   </div>
                 </div>
             </div>
+            <div ng-show="!events.length" style="text-align: center;position: relative;top: 50%;">No events for now</div>
           </div>
         </div>
       </div>

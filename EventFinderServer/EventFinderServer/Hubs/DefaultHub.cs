@@ -21,27 +21,35 @@ namespace EventFinderServer.Hubs
 
         public async Task SendMessage(int eventId, MessageDTO message)
         {
-            _dataService.SendMessage(eventId, message);
-            await Clients.All.SendAsync("Message", eventId, message);
+            bool success = _dataService.SendMessage(eventId, message);
+            if(success)
+                await Clients.All.SendAsync("Message", eventId, message);
         }
 
         public async Task AddFavorite(int eventId, string username)
         {
             _dataService.AddFavorite(eventId, username);
-            var favorites = _dataService.GetFavorites(username);
-            await Clients.Caller.SendAsync("Favorites", favorites);
+            await Clients.Caller.SendAsync("AddFav", eventId);
+        }
+
+        public async Task RemoveFavorite(int eventId, string username)
+        {
+            _dataService.RemoveFavorite(eventId, username);
+            await Clients.Caller.SendAsync("RemoveFav", eventId);
         }
 
         public async Task GetFavorites(string username)
         {
             var favorites = _dataService.GetFavorites(username);
-            await Clients.Caller.SendAsync("Favorites", favorites);
+            if(favorites != null)
+                await Clients.Caller.SendAsync("Favorites", favorites);
         }
 
         public async Task GetEvents(string username)
         {
             var events = _dataService.GetEvents(username);
-            await Clients.Caller.SendAsync("Events", events.ToArray());
+            if(events != null)
+                await Clients.Caller.SendAsync("Events", events.ToArray());
         }
 
         public async Task EditProfile(ProfileDTO user)

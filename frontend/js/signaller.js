@@ -57,10 +57,15 @@ app.controller("Controller", ["$scope", function($scope) {
             $scope.$apply();
         });
 
-        connection.on("Favorites", (favorites) => {
-          $scope.favorites = favorites;
-          $scope.$apply();
-      });
+        connection.on("AddFav", (id) => {
+            $scope.events[id].isfavorite = true;
+            $scope.$apply();
+        });
+
+        connection.on("RemoveFav", (id) => {
+            $scope.events[id].isfavorite = false;
+            $scope.$apply();
+        });
 
         connection.on("Message", (event_id, message) => {
             $scope.events[event_id].messages.push(message);
@@ -86,7 +91,7 @@ app.controller("Controller", ["$scope", function($scope) {
         }
       };
 
-      $scope.addfavorites = async function(id){
+      $scope.addfavorite = async function(id){
         var login = sessionStorage.getItem("login");
         if(login){
           var u = sessionStorage.getItem("user");
@@ -95,6 +100,21 @@ app.controller("Controller", ["$scope", function($scope) {
           var event_id = id;
           try {
             await connection.invoke("AddFavorite", event_id, uname);
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      };
+
+      $scope.removefavorite = async function(id){
+        var login = sessionStorage.getItem("login");
+        if(login){
+          var u = sessionStorage.getItem("user");
+          u = u ? JSON.parse(u) : undefined;
+          var uname = u.username;
+          var event_id = id;
+          try {
+            await connection.invoke("RemoveFavorite", event_id, uname);
           } catch (err) {
             console.error(err);
           }

@@ -56,7 +56,7 @@
       <div class="outside">
         <div class="inside">
           
-          <div class="card" ng-repeat="item in favorites">
+          <div class="card" ng-repeat="item in events" ng-if="item.isfavorite">
             <div class="card-header">
                 <div class="card-title">
                   <h5>{{ item.title }}</h5>
@@ -100,6 +100,7 @@
                 </div>
               </div>
           </div>
+          <div ng-show="!events.length" style="text-align: center;position: relative;top: 50%;">No favorite events</div>
         </div>
       </div>
     </div>
@@ -108,7 +109,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js" integrity="sha512-0z9zJIjxQaDVzlysxlaqkZ8L9jh8jZ2d54F3Dn36Y0a8C6eI/RFOME/tLCFJ42hfOxdclfa29lPSNCmX5ekxnw==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
-    <script src="js/favorites.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/logout.js"></script>
     <script src="js/signaller.js"></script>
 

@@ -166,23 +166,33 @@ namespace EventFinderServer.DataService
             if (u == null || !u.LoggedIn)
                 return;
 
-            if(EventExists(eventId))
+            if(EventExists(eventId) && !u.Favorites.Contains(eventId))
                 u.Favorites.Add(eventId);
         }
 
-        public List<EventDTO> GetFavorites(string username)
+        public void RemoveFavorite(int eventId, string username)
+        {
+            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
+            if (u == null || !u.LoggedIn)
+                return;
+
+            if (EventExists(eventId) && u.Favorites.Contains(eventId))
+                u.Favorites.Remove(eventId);
+        }
+
+        public List<int> GetFavorites(string username)
         {
             var u = Users.FirstOrDefault(u => u.Username.Equals(username));
             if (u == null || !u.LoggedIn)
                 return null;
 
-            List<EventDTO> res = new List<EventDTO>();
+            List<int> res = new List<int>();
 
             foreach (var e in Events)
             {
                 if (u.Favorites.Contains(e.EventId))
                 {
-                    res.Add(e.MakeDTO());
+                    res.Add(e.EventId);
                 }
             }
 
@@ -218,16 +228,24 @@ namespace EventFinderServer.DataService
             {
                 if(e.EventInterests.Any(ei => u.Interests[(int)ei] && e.EventLanguages.Any(el => u.Languages[(int)el])))
                 {
-                    res.Add(e.MakeDTO());
+                    res.Add(e.MakeDTO(u.Favorites.Contains(e.EventId)));
                 }
             }
 
             return res;
         }
 
-        public void SendMessage(int eventId, MessageDTO message)
+        public bool SendMessage(int eventId, MessageDTO message)
         {
-            Events[eventId].Messages.Add(new Message { Sender = message.username, Content = message.content });
+            try
+            {
+                Events[eventId].Messages.Add(new Message { Sender = message.username, Content = message.content });
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool Logout(string username)

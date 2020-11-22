@@ -21,9 +21,9 @@ namespace EventFinderServer.Models
         public List<Languages> EventLanguages { get; set; }
         public List<Message> Messages { get; set; }
 
-        public EventDTO MakeDTO()
+        public EventDTO MakeDTO(bool favorite = false)
         {
-            var res = new EventDTO { event_id = EventId, title = Title, description = Description, beginning = BeginTime.ToString(), ending = EndTime.ToString() };
+            var res = new EventDTO { event_id = EventId, title = Title, description = Description, isfavorite = favorite, beginning = BeginTime.ToString(), ending = EndTime.ToString() };
             res.messages = new MessageDTO[Messages.Count];
             res.image = "data:image/jpeg;base64, " + Convert.ToBase64String(File.ReadAllBytes(Path.Combine(ImageRoot, ImageLocation)));
 

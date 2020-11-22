@@ -6,15 +6,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\cinema.JPG" />
+    <None Remove="Images\cooking.JPG" />
     <None Remove="Images\football.JPG" />
     <None Remove="Images\hiking.JPG" />
+    <None Remove="Images\icehockey.JPG" />
     <None Remove="Images\museum.JPG" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\football.JPG" />
-    <Content Include="Images\hiking.JPG" />
-    <Content Include="Images\museum.JPG" />
+    <Content Include="Images\cinema.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\cooking.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\football.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\hiking.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\icehockey.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\museum.JPG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -13,6 +13,7 @@ namespace EventFinderServer.DTOs
         public string image { get; set; }
         public string beginning { get; set; }
         public string ending { get; set; }
+        public bool isfavorite { get; set; }
         public MessageDTO[] messages { get; set; }
     }
 }
