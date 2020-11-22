@@ -57,7 +57,7 @@
             <div class="edit-div">
                 <h5>Account settings:</h5>
 
-                <form action="/main.html" method="post">
+                <form>
                     <div class="edit-username">
                         <label for="usname" id="usnamel">Username:</label>
                         <input type="text" id="unamei" name="fname" disabled><br><br>
@@ -111,7 +111,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" id="finish_button" value="Finish" class="btn float-right login_btn">
+                        <input type="submit" id="finish_button" value="Finish" class="btn float-right login_btn" onclick="sendDatas()">
                     </div>
                 </form>
             </div>
@@ -122,6 +122,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/js/bootstrap.min.js" integrity="sha512-0z9zJIjxQaDVzlysxlaqkZ8L9jh8jZ2d54F3Dn36Y0a8C6eI/RFOME/tLCFJ42hfOxdclfa29lPSNCmX5ekxnw==" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js"></script>
         <script src="js/edit_profile.js"></script>
+        <script src="js/classes.js"></script>
         <script src="js/logout.js"></script>
         <script src="js/signaller.js"></script>
     </body>

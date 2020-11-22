@@ -71,6 +71,11 @@ app.controller("Controller", ["$scope", function($scope) {
             $scope.events[event_id].messages.push(message);
             $scope.$apply();
         });
+
+        connection.on("Edit", (success) => {
+          if(success)
+              window.location.href = "/main.html";
+      });
     };
 
     $scope.sendmessage = async function(id) {
