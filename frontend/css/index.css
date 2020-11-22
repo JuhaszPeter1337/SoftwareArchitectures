@@ -33,7 +33,7 @@ h3{
 }
 
 .card{
-    height: 370px;
+    height: 400px;
     margin-top: 170px;
     margin-bottom: auto;
     width: 400px;
@@ -43,6 +43,10 @@ h3{
 
 .card-header h3{
     color: white;
+}
+
+.card-footer{
+    padding-top: 0px;
 }
 
 .input-group-prepend span{
@@ -84,4 +88,13 @@ input:focus{
 
 .card-footer a{
     margin-left: 10px;
+}
+
+#error_message_login{
+    color: red;
+    font-size: 18px;
+    margin-top: 90px;
+    margin-left: 0px;
+    width: 100%;
+    text-align: center;
 }

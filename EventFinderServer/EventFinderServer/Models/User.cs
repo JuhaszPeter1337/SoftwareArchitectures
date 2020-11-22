@@ -14,11 +14,11 @@ namespace EventFinderServer.Models
 
         public bool[] Interests { get; set; }
         public bool[] Languages { get; set; }
-        public List<int> Favorites { get; set; }
+        public List<int> Favourites { get; set; }
 
         public ProfileDTO MakeDTO()
         {
-            return new ProfileDTO { username = Username, password = null, interests = Interests, languages = Languages, favorites = Favorites };
+            return new ProfileDTO { username = Username, password = null, interests = Interests, languages = Languages, favourites = Favourites };
         }
     }
 }

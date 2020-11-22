@@ -82,7 +82,7 @@
               </div>
 
               <div class="add-to-favorites">
-                <h5>Do you like this event? Don't forget to add to your favorites!<a href="#"> Click here to add to your favorites!</a></h5>
+                <h5>Do you like this event? Don't forget to add to your favorites!<form id="{{'fav-' + item.event_id}}" ng-submit="addfavorite(item.event_id)"> Click <button form="{{'fav-' + item.event_id}}" type="submit">here</button> to add to your favorites!</form></h5>
               </div>
 
               <div class="comment-section">

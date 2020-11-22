@@ -86,36 +86,64 @@ namespace EventFinderServer.DataService
                 },
                 Messages = new List<Message> { }
             },
-        };
-
-        public void AddFavorite(int eventId, string username)
-        {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !u.LoggedIn)
-                return;
-
-            if(EventExists(eventId))
-                u.Favorites.Add(eventId);
-        }
-
-        public List<EventDTO> GetFavorites(string username)
-        {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !u.LoggedIn)
-                return null;
-
-            List<EventDTO> res = new List<EventDTO>();
-
-            foreach (var e in Events)
-            {
-                if (u.Favorites.Contains(e.EventId))
+            new Event{
+                EventId = 3 , Title = "Cooking course",
+                Description = "It's safe to say people are cooking at home now more than ever." +
+                " And since we're all stuck inside, world-class chefs to locals in Italy have gone online" +
+                " to teach virtual cooking courses. The best part is, there’s a class for everyone," +
+                " including total beginners in the kitchen, families," +
+                " and even advanced cooks who have more time on their hands.",
+                ImageLocation = "cooking.jpg",
+                BeginTime = Convert.ToDateTime("2020.12.06. 8:00"),
+                EndTime = Convert.ToDateTime("2020.12.06. 16:00"),
+                EventInterests = new List<Interests>
                 {
-                    res.Add(e.MakeDTO());
-                }
-            }
-
-            return res;
-        }
+                    Interests.Cooking
+                },
+                EventLanguages = new List<Languages>
+                {
+                    Languages.Russian
+                },
+                Messages = new List<Message> { }
+            },
+             new Event{
+                EventId = 4 , Title = "Cinema",
+                Description = "We are pleased to announce that the renovated, redesigned Cinema City Mammut I." +
+                 " is waiting for You...furhtermore its brand new VIP cinema section finally opened its doors" +
+                 " as well! Watch Avengers: Engame in 3D.",
+                ImageLocation = "cinema.jpg",
+                BeginTime = Convert.ToDateTime("2020.12.03. 16:30"),
+                EndTime = Convert.ToDateTime("2020.12.03. 19:00"),
+                EventInterests = new List<Interests>
+                {
+                    Interests.Cinema
+                },
+                EventLanguages = new List<Languages>
+                {
+                    Languages.English
+                },
+                Messages = new List<Message> { }
+            },
+             new Event{
+                EventId = 5 , Title = "Playing icehockey",
+                Description = "Ice Hockey is one of the world’s fastest team sports full of skilful handling," +
+                 " tactics, speed and determination. Learn how to play this exciting sport and you could join" +
+                 " an ice hockey club and compete or simply enjoy ice hockey as a leisure activity, participating" +
+                 " in games with players of all abilities.",
+                ImageLocation = "icehockey.jpg",
+                BeginTime = Convert.ToDateTime("2020.12.12. 18:00"),
+                EndTime = Convert.ToDateTime("2020.12.12. 20:00"),
+                EventInterests = new List<Interests>
+                {
+                    Interests.PlaySports
+                },
+                EventLanguages = new List<Languages>
+                {
+                    Languages.Hungarian
+                },
+                Messages = new List<Message> { }
+            },
+        };
 
         public ProfileDTO Login(string username, string password)
         {
@@ -124,17 +152,12 @@ namespace EventFinderServer.DataService
                 return null;
 
             u.LoggedIn = true;
-            ProfileDTO p = new ProfileDTO { username = u.Username, password = null, interests = u.Interests, languages = u.Languages, favorites = u.Favorites };
+            ProfileDTO p = new ProfileDTO { username = u.Username, password = null, interests = u.Interests, languages = u.Languages, favourites = u.Favourites };
 
             return p;
         }
 
-        private bool EventExists(int eventId)
-        {
-            return Events.FirstOrDefault(e => e.EventId.Equals(eventId)) != null;
-        }
-
-        public List<EventDTO> GetEvents(string username)
+        internal List<EventDTO> GetEvents(string username)
         {
             var u = Users.FirstOrDefault(u => u.Username.Equals(username));
             if (u == null || !u.LoggedIn)
@@ -144,7 +167,7 @@ namespace EventFinderServer.DataService
 
             foreach(var e in Events)
             {
-                if(e.EventInterests.Any(ei => u.Interests[(int)ei] && e.EventLanguages.Any(el => u.Languages[(int)el])))
+                if(e.EventInterests.Any(ei => u.Interests[(int)ei]))
                 {
                     res.Add(e.MakeDTO());
                 }
@@ -173,7 +196,7 @@ namespace EventFinderServer.DataService
             var u = Users.FirstOrDefault(u => u.Username.Equals(user.username));
             if (u != null)
                 return false;
-            User newuser = new User { Id = User.UserId++, Username = user.username, Password = PWHasher.Hash(user.password), LoggedIn = false, Interests = user.interests, Languages = user.languages, Favorites = new List<int>() };
+            User newuser = new User { Id = User.UserId++, Username = user.username, Password = PWHasher.Hash(user.password), LoggedIn = false, Interests = user.interests, Languages = user.languages, Favourites = new List<int>() };
 
             Users.Add(newuser);
 

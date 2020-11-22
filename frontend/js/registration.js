@@ -10,24 +10,38 @@ function check() {
     }
 }
 
+function CheckPassword(inputtxt) 
+{ 
+  var passw= /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  if(inputtxt.match(passw)){ 
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 async function sendDatas() {
-    var usernameValue = document.getElementById("uniqueusername").value;
-    var passwordValue = document.getElementById("mypassword").value;
+  var usernameValue = document.getElementById("uniqueusername").value;
+  var passwordValue = document.getElementById("mypassword").value;
 
-    var interests1 = document.getElementById("interests1").checked;
-    var interests2 = document.getElementById("interests2").checked;
-    var interests3 = document.getElementById("interests3").checked;
-    var interests4 = document.getElementById("interests4").checked;
-    var interests5 = document.getElementById("interests5").checked;
-    var interests6 = document.getElementById("interests6").checked;
-    
-    var language1 = document.getElementById("language1").checked;
-    var language2 = document.getElementById("language2").checked;
-    var language3 = document.getElementById("language3").checked;
-    var language4 = document.getElementById("language4").checked;
-    var language5 = document.getElementById("language5").checked;
-    var language6 = document.getElementById("language6").checked;
+  var interests1 = document.getElementById("interests1").checked;
+  var interests2 = document.getElementById("interests2").checked;
+  var interests3 = document.getElementById("interests3").checked;
+  var interests4 = document.getElementById("interests4").checked;
+  var interests5 = document.getElementById("interests5").checked;
+  var interests6 = document.getElementById("interests6").checked;
+  
+  var language1 = document.getElementById("language1").checked;
+  var language2 = document.getElementById("language2").checked;
+  var language3 = document.getElementById("language3").checked;
+  var language4 = document.getElementById("language4").checked;
+  var language5 = document.getElementById("language5").checked;
+  var language6 = document.getElementById("language6").checked;
 
+  var check = CheckPassword(passwordValue);
+
+  if(check){
     var user = new Profile();
 
     user.setUsername(usernameValue);
@@ -42,5 +56,9 @@ async function sendDatas() {
       await connection.invoke("RegisterReq", user);
     } catch (err) {
       console.error(err);
+      }
     }
+  else{
+    document.getElementById("error_message").innerHTML="Wrong password format";
+  }
 }

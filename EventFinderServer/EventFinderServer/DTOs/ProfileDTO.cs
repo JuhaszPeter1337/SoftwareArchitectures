@@ -14,6 +14,6 @@ namespace EventFinderServer.DTOs
         public string password { get; set; }
         public bool[] interests { get; set; }
         public bool[] languages { get; set; }
-        public List<int> favorites { get; set; }
+        public List<int> favourites { get; set; }
     }
 }

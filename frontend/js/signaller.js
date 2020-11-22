@@ -41,7 +41,7 @@ app.controller("Controller", ["$scope", function($scope) {
         });
 
         connection.on("LoginFailed", () => {
-            
+            document.getElementById("error_message_login").innerHTML="Wrong username or password";
         });
 
         connection.on("Logout", (success) => {
@@ -74,6 +74,22 @@ app.controller("Controller", ["$scope", function($scope) {
           var message = {username: uname, content: content};
           try {
             await connection.invoke("SendMessage", event_id, message);
+            document.getElementById('real-comment-' + id).value="";
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      };
+
+      $scope.addfavorites = async function(id){
+        var login = sessionStorage.getItem("login");
+        if(login){
+          var u = sessionStorage.getItem("user");
+          u = u ? JSON.parse(u) : undefined;
+          var uname = u.username;
+          var event_id = id;
+          try {
+            await connection.invoke("AddFavorite", event_id, uname);
           } catch (err) {
             console.error(err);
           }
