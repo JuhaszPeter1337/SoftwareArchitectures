@@ -86,6 +86,63 @@ namespace EventFinderServer.DataService
                 },
                 Messages = new List<Message> { }
             },
+            new Event{
+                EventId = 3 , Title = "Cooking course",
+                Description = "It's safe to say people are cooking at home now more than ever." +
+                " And since we're all stuck inside, world-class chefs to locals in Italy have gone online" +
+                " to teach virtual cooking courses. The best part is, there’s a class for everyone," +
+                " including total beginners in the kitchen, families," +
+                " and even advanced cooks who have more time on their hands.",
+                ImageLocation = "cooking.jpg",
+                BeginTime = Convert.ToDateTime("2020.12.06. 8:00"),
+                EndTime = Convert.ToDateTime("2020.12.06. 16:00"),
+                EventInterests = new List<Interests>
+                {
+                    Interests.Cooking
+                },
+                EventLanguages = new List<Languages>
+                {
+                    Languages.Russian
+                },
+                Messages = new List<Message> { }
+            },
+             new Event{
+                EventId = 4 , Title = "Cinema",
+                Description = "We are pleased to announce that the renovated, redesigned Cinema City Mammut I." +
+                 " is waiting for You...furhtermore its brand new VIP cinema section finally opened its doors" +
+                 " as well! Watch Avengers: Engame in 3D.",
+                ImageLocation = "cinema.jpg",
+                BeginTime = Convert.ToDateTime("2020.12.03. 16:30"),
+                EndTime = Convert.ToDateTime("2020.12.03. 19:00"),
+                EventInterests = new List<Interests>
+                {
+                    Interests.Cinema
+                },
+                EventLanguages = new List<Languages>
+                {
+                    Languages.English
+                },
+                Messages = new List<Message> { }
+            },
+             new Event{
+                EventId = 5 , Title = "Playing icehockey",
+                Description = "Ice Hockey is one of the world’s fastest team sports full of skilful handling," +
+                 " tactics, speed and determination. Learn how to play this exciting sport and you could join" +
+                 " an ice hockey club and compete or simply enjoy ice hockey as a leisure activity, participating" +
+                 " in games with players of all abilities.",
+                ImageLocation = "icehockey.jpg",
+                BeginTime = Convert.ToDateTime("2020.12.12. 18:00"),
+                EndTime = Convert.ToDateTime("2020.12.12. 20:00"),
+                EventInterests = new List<Interests>
+                {
+                    Interests.PlaySports
+                },
+                EventLanguages = new List<Languages>
+                {
+                    Languages.Hungarian
+                },
+                Messages = new List<Message> { }
+            },
         };
 
         internal bool Edit(ProfileDTO user)
