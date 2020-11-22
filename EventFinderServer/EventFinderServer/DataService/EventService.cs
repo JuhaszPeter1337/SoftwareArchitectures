@@ -88,6 +88,35 @@ namespace EventFinderServer.DataService
             },
         };
 
+        public void AddFavorite(int eventId, string username)
+        {
+            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
+            if (u == null || !u.LoggedIn)
+                return;
+
+            if(EventExists(eventId))
+                u.Favorites.Add(eventId);
+        }
+
+        public List<EventDTO> GetFavorites(string username)
+        {
+            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
+            if (u == null || !u.LoggedIn)
+                return null;
+
+            List<EventDTO> res = new List<EventDTO>();
+
+            foreach (var e in Events)
+            {
+                if (u.Favorites.Contains(e.EventId))
+                {
+                    res.Add(e.MakeDTO());
+                }
+            }
+
+            return res;
+        }
+
         public ProfileDTO Login(string username, string password)
         {
             var u = Users.FirstOrDefault(u => u.Username.Equals(username));
@@ -95,12 +124,17 @@ namespace EventFinderServer.DataService
                 return null;
 
             u.LoggedIn = true;
-            ProfileDTO p = new ProfileDTO { username = u.Username, password = null, interests = u.Interests, languages = u.Languages, favourites = u.Favourites };
+            ProfileDTO p = new ProfileDTO { username = u.Username, password = null, interests = u.Interests, languages = u.Languages, favorites = u.Favorites };
 
             return p;
         }
 
-        internal List<EventDTO> GetEvents(string username)
+        private bool EventExists(int eventId)
+        {
+            return Events.FirstOrDefault(e => e.EventId.Equals(eventId)) != null;
+        }
+
+        public List<EventDTO> GetEvents(string username)
         {
             var u = Users.FirstOrDefault(u => u.Username.Equals(username));
             if (u == null || !u.LoggedIn)
@@ -110,7 +144,7 @@ namespace EventFinderServer.DataService
 
             foreach(var e in Events)
             {
-                if(e.EventInterests.Any(ei => u.Interests[(int)ei]))
+                if(e.EventInterests.Any(ei => u.Interests[(int)ei] && e.EventLanguages.Any(el => u.Languages[(int)el])))
                 {
                     res.Add(e.MakeDTO());
                 }
@@ -139,7 +173,7 @@ namespace EventFinderServer.DataService
             var u = Users.FirstOrDefault(u => u.Username.Equals(user.username));
             if (u != null)
                 return false;
-            User newuser = new User { Id = User.UserId++, Username = user.username, Password = PWHasher.Hash(user.password), LoggedIn = false, Interests = user.interests, Languages = user.languages, Favourites = new List<int>() };
+            User newuser = new User { Id = User.UserId++, Username = user.username, Password = PWHasher.Hash(user.password), LoggedIn = false, Interests = user.interests, Languages = user.languages, Favorites = new List<int>() };
 
             Users.Add(newuser);
 

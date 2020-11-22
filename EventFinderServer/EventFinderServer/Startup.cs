@@ -25,15 +25,6 @@ namespace EventFinderServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors(options =>
-            //{
-            //    options.AddDefaultPolicy(
-            //        builder =>
-            //        {
-            //            builder.WithOrigins("http://localhost:5000",
-            //                                "http://localhost:8000");
-            //        });
-            //});
             services.AddSingleton<EventService>();
             services.AddSignalR();
         }
@@ -56,8 +47,6 @@ namespace EventFinderServer
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            //app.UseCors();
 
             app.UseAuthorization();
 

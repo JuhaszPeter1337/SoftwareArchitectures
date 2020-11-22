@@ -25,6 +25,19 @@ namespace EventFinderServer.Hubs
             await Clients.All.SendAsync("Message", eventId, message);
         }
 
+        public async Task AddFavorite(int eventId, string username)
+        {
+            _dataService.AddFavorite(eventId, username);
+            var favorites = _dataService.GetFavorites(username);
+            await Clients.Caller.SendAsync("Favorites", favorites);
+        }
+
+        public async Task GetFavorites(string username)
+        {
+            var favorites = _dataService.GetFavorites(username);
+            await Clients.Caller.SendAsync("Favorites", favorites);
+        }
+
         public async Task GetEvents(string username)
         {
             var events = _dataService.GetEvents(username);
