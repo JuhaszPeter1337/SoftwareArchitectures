@@ -189,21 +189,18 @@ span{
 }
 
 .inside{
-    height: 850px;
+    height: 950px;
     width: 1200px;
     margin-left: 350px;
     border: 2px solid white;
     border-bottom: 0px;
     overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .inside::-webkit-scrollbar{
   display: none;
-}
-
-.inside {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 }
 
 .card{
@@ -213,6 +210,9 @@ span{
     overflow-x: hidden;
     padding-left: 20px;
     padding-right: 20px;
+    overflow-y: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .card-header{

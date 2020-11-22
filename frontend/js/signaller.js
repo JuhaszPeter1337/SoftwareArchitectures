@@ -57,6 +57,11 @@ app.controller("Controller", ["$scope", function($scope) {
             $scope.$apply();
         });
 
+        connection.on("Favorites", (favorites) => {
+          $scope.favorites = favorites;
+          $scope.$apply();
+      });
+
         connection.on("Message", (event_id, message) => {
             $scope.events[event_id].messages.push(message);
             $scope.$apply();
@@ -97,4 +102,5 @@ app.controller("Controller", ["$scope", function($scope) {
       };
 
     $scope.events = [];
+    $scope.favorites = [];
 }]);
