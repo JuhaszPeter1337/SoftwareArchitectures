@@ -359,3 +359,38 @@ input{
 #log-li{
   cursor:pointer
 }
+
+@media (max-width: 992px) {
+  nav{
+    height: 130px;
+}
+
+  nav img{
+      width: 100px;
+      height: 100px;
+  }
+
+  .logo_pic{
+      font-size: 50px;
+  }
+
+  span{
+    margin-left: 870px;
+  }
+
+  #menuToggle{
+    top: 47px;
+  }
+
+  #menuToggle input{
+    margin-left: 870px;
+  }
+  
+  #menu{
+   margin-left: 700px;
+  }
+
+  .edit-div{
+    margin-left: 100px;
+  }
+}

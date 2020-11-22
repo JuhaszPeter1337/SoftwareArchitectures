@@ -16,6 +16,7 @@ nav{
 html,body{
     background-color:#101010;
     height: 100%;
+    width: 100%;
     font-family: 'Numans', sans-serif;
     overflow-y: hidden;
     overflow-x: hidden;
@@ -97,4 +98,49 @@ input:focus{
     margin-left: 0px;
     width: 100%;
     text-align: center;
+}
+
+@media (max-width: 992px) { 
+    body{
+        overflow-y: scroll;
+    }
+    
+    nav{
+        height: 130px;
+    }
+
+    nav img{
+        width: 100px;
+        height: 100px;
+    }
+
+    .logo_pic{
+        font-size: 50px;
+    }
+
+    .card{
+        height: 420px;
+        width: 700px;
+    }
+
+    .btn{
+        width: 150px;
+        font-size: 25px;
+    }
+
+    .foot{
+        font-size: 25px;
+    }
+
+    #error_message_login{
+        font-size: 24px;
+    }
+
+    #login_user{
+        font-size: 25px;
+    }
+
+    #login_pass{
+        font-size: 25px;
+    }
 }
