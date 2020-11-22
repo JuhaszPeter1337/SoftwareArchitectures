@@ -65,7 +65,7 @@ namespace EventFinderServer.DataService
                 }
             },
             new Event{
-                EventId = 1, Title = "Museum tour",
+                EventId = 2 , Title = "Museum tour",
                 Description = "The Louvre or the Louvre Museum is the world's " +
                 "largest art museum and a historic monument in Paris, France. " +
                 "The museum is housed in the Louvre Palace, originally built as " +
@@ -117,6 +117,11 @@ namespace EventFinderServer.DataService
             }
 
             return res;
+        }
+
+        public void SendMessage(int eventId, MessageDTO message)
+        {
+            Events[eventId].Messages.Add(new Message { Sender = message.username, Content = message.content });
         }
 
         public bool Logout(string username)

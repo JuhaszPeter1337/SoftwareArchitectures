@@ -19,9 +19,10 @@ namespace EventFinderServer.Hubs
             _dataService = service;
         }
 
-        public async Task SendMessage(int eventId, string user, string message)
+        public async Task SendMessage(int eventId, MessageDTO message)
         {
-            await Clients.Others.SendAsync("Message", eventId, user, message);
+            _dataService.SendMessage(eventId, message);
+            await Clients.All.SendAsync("Message", eventId, message);
         }
 
         public async Task GetEvents(string username)

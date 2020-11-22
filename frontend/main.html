@@ -58,7 +58,6 @@
             
             <div class="card" ng-repeat="item in events">
               <div class="card-header">
-                  <div id="{{ 'event-id-' + item.event_id }}">{{item.event_id}}</div>
                   <div class="card-title">
                     <h5>{{ item.title }}</h5>
                   </div>
@@ -98,8 +97,9 @@
                 </div>
 
                   <div class="write-comment">
-                    <form>
-                      <input type="text" ng-submit="sendmessage()" id="{{ 'real-comment-' + item.event_id }}" class="form-control" placeholder="Write comment...">
+                    <form ng-submit="sendmessage(item.event_id)">
+                      <input type="text" id="{{ 'real-comment-' + item.event_id }}" class="form-control" placeholder="Write comment...">
+                      <input type="submit" style="position: absolute; left: -9999px"/>
                     </form>
                   </div>
                 </div>

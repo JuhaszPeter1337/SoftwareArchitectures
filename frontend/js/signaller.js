@@ -57,9 +57,28 @@ app.controller("Controller", ["$scope", function($scope) {
             $scope.$apply();
         });
 
-        connection.on("Message", (event_id, user, message) => {
-            
+        connection.on("Message", (event_id, message) => {
+            $scope.events[event_id].messages.push(message);
+            $scope.$apply();
         });
-    }
+    };
+
+    $scope.sendmessage = async function(id) {
+        var login = sessionStorage.getItem("login");
+        if(login){
+          var u = sessionStorage.getItem("user");
+          u = u ? JSON.parse(u) : undefined;
+          var uname = u.username;
+          var event_id = id;
+          var content = document.getElementById('real-comment-' + id).value;
+          var message = {username: uname, content: content};
+          try {
+            await connection.invoke("SendMessage", event_id, message);
+          } catch (err) {
+            console.error(err);
+          }
+        }
+      };
+
     $scope.events = [];
 }]);
