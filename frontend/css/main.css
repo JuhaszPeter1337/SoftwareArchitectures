@@ -189,11 +189,16 @@ span{
 }
 
 .inside{
-    height: 830px;
+    height: 850px;
     width: 1200px;
     margin-left: 350px;
     border: 2px solid white;
+    border-bottom: 0px;
     overflow-y: scroll;
+}
+
+.inside::-webkit-scrollbar{
+  display: none;
 }
 
 .card{
@@ -201,6 +206,8 @@ span{
     margin-top: 5px;
     margin-bottom: 40px;
     overflow-x: hidden;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .card-header{
@@ -231,8 +238,9 @@ span{
     border-right: 2px solid white;
 }
 
-img{
+.card-image img{
     padding: 5px;
+    width: 100%;
 }
 
 h5{
@@ -242,7 +250,7 @@ h5{
 
 .card-datetime{
     display: flex;
-    width: 1167px;
+    width: 1144px;
     margin-left: 5px;
     margin-right: 5px;
     border: 2px solid white;
@@ -253,7 +261,7 @@ h5{
 }
 
 .card-beginning{
-    width: 600px;
+    width: 50%;
     text-align: center;
     border-right: 2px solid white;
 }
@@ -263,7 +271,7 @@ h5{
 }
 
 .card-ending{
-    width: 600px;
+    width: 50%;
     text-align: center;
 }
 
@@ -318,6 +326,10 @@ h5{
   margin-left: 40px;
   margin-right: 40px;
   margin-top: 20px;
+}
+
+.write-comment input{
+  margin-bottom: 15px;
 }
 
 .add-to-favorites{
