@@ -44,6 +44,12 @@ namespace EventFinderServer.Hubs
             await Clients.Caller.SendAsync("Events", events.ToArray());
         }
 
+        public async Task EditProfile(ProfileDTO user)
+        {
+            bool success = _dataService.Edit(user);
+            await Clients.Caller.SendAsync("Edit", success);
+        }
+
         public async Task RegisterReq(ProfileDTO user)
         {
             bool success = _dataService.Register(user);

@@ -88,6 +88,21 @@ namespace EventFinderServer.DataService
             },
         };
 
+        internal bool Edit(ProfileDTO user)
+        {
+            var u = Users.FirstOrDefault(u => u.Username.Equals(user.username));
+            if (u == null)
+                return false;
+
+            if (user.password != null)
+                u.Password = PWHasher.Hash(user.password);
+
+            u.Interests = user.interests;
+            u.Languages = user.languages;
+
+            return true;
+        }
+
         public void AddFavorite(int eventId, string username)
         {
             var u = Users.FirstOrDefault(u => u.Username.Equals(username));
