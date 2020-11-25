@@ -49,6 +49,10 @@ async function sendEvent(){
     event.setInterests(interests1, interests2, interests3, interests4, interests5, interests6);
     event.setLanguages(language1, language2, language3, language4, language5, language6);
 
-    console.log(event);
+    try {
+        await connection.invoke("AddEvent", user);
+    } catch (err) {
+        console.error(err);
+    }
 }
 
