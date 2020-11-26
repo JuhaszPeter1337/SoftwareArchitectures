@@ -6,7 +6,8 @@ app.controller("Controller", ["$scope", function($scope) {
             .configureLogging(signalR.LogLevel.Debug)
             .withUrl("http://localhost:5000/default", {
             skipNegotiation: true,
-            transport: signalR.HttpTransportType.WebSockets
+            transport: signalR.HttpTransportType.WebSockets,
+            accessTokenFactory: () => localStorage.getItem("token")
             })
             .build();
 
@@ -34,8 +35,9 @@ app.controller("Controller", ["$scope", function($scope) {
 
         connection.on("Login", (user) => {
             if(user != null){
-                sessionStorage.setItem("login", true);
-                sessionStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("login", true);
+                localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("token", user.token)
                 window.location.href = "/main.html";
             }
         });
@@ -46,8 +48,8 @@ app.controller("Controller", ["$scope", function($scope) {
 
         connection.on("Logout", (success) => {
             if(success){
-                sessionStorage.setItem("login", false);
-                sessionStorage.removeItem("user");
+                localStorage.setItem("login", false);
+                localStorage.removeItem("user");
                 window.location.href = "/index.html";
             }
         });
@@ -95,7 +97,7 @@ app.controller("Controller", ["$scope", function($scope) {
     };
 
     $scope.sendmessage = async function(id) {
-        var login = sessionStorage.getItem("login");
+        var login = localStorage.getItem("login");
         if(login){
           var event_id = id;
           var content = document.getElementById('real-comment-' + id).value;
@@ -109,7 +111,7 @@ app.controller("Controller", ["$scope", function($scope) {
       };
 
       $scope.addfavorite = async function(id){
-        var login = sessionStorage.getItem("login");
+        var login = localStorage.getItem("login");
         if(login){
           var event_id = id;
           try {
@@ -121,7 +123,7 @@ app.controller("Controller", ["$scope", function($scope) {
       };
 
       $scope.removefavorite = async function(id){
-        var login = sessionStorage.getItem("login");
+        var login = localStorage.getItem("login");
         if(login){
           var event_id = id;
           try {

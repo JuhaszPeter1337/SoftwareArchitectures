@@ -49,7 +49,7 @@ async function sendDatas() {
     user.setInterests(interests1, interests2, interests3, interests4, interests5, interests6);
     user.setLanguages(language1, language2, language3, language4, language5, language6);
 
-    sessionStorage.setItem("user", user);
+    localStorage.setItem("user", user);
 
     try {
       await connection.invoke("RegisterReq", user, passwordValue);

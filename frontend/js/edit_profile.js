@@ -4,9 +4,9 @@ function makePasswordEnable(){
     document.getElementById("passi-3").disabled = false;
 }
 
-var login = sessionStorage.getItem("login");
+var login = localStorage.getItem("login");
 if(login){
-    var u = sessionStorage.getItem("user");
+    var u = localStorage.getItem("user");
     u = u ? JSON.parse(u) : undefined;
     if(u != undefined){
         document.getElementById("unamei").value= u.username;
@@ -76,7 +76,7 @@ async function sendDatas(){
         user.setInterests(interests1, interests2, interests3, interests4, interests5, interests6);
         user.setLanguages(language1, language2, language3, language4, language5, language6);
 
-        sessionStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
 
         try {
             await connection.invoke("EditProfile", user, pass);
