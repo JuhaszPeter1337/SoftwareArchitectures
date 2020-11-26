@@ -59,6 +59,18 @@ namespace EventFinderServer.Hubs
         }
 
         [Authorize]
+        public async Task AddEvent(EventDTO newevent)
+        {
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                bool success = _dataService.AddEvent(newevent);
+                if (success)
+                    await Clients.All.SendAsync("AddEvent", success);
+            }
+        }
+
+        [Authorize]
         public async Task AddFavorite(int eventId)
         {
             string username = ConnectedIds[Context.ConnectionId];
@@ -77,18 +89,6 @@ namespace EventFinderServer.Hubs
             {
                 _dataService.RemoveFavorite(username, eventId);
                 await Clients.Caller.SendAsync("RemoveFav", eventId);
-            }
-        }
-
-        [Authorize]
-        public async Task GetFavorites()
-        {
-            string username = ConnectedIds[Context.ConnectionId];
-            if (!String.IsNullOrEmpty(username))
-            {
-                var favorites = _dataService.GetFavorites(username);
-                if (favorites != null)
-                    await Clients.Caller.SendAsync("Favorites", favorites);
             }
         }
 
@@ -147,7 +147,7 @@ namespace EventFinderServer.Hubs
                     username = u.UserName,
                     interests = u.Interests,
                     languages = u.Languages,
-                    favorites = u.Favorites.Select(x => x.Id).ToArray(),
+                    favorites = u.Favorites.Select(x => x.EventId).ToArray(),
                     token = tokenString
                 };
                 await Clients.Caller.SendAsync("Login", p);

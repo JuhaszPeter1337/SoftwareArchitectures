@@ -21,7 +21,7 @@ namespace EventFinderServer.DAL
             Event[] events = new Event[]
             {
                 new Event {
-                    Id = 0, Title = "Football match",
+                    Title = "Football match",
                     Description = "Hungary plays against Serbia. " +
                     "It will be a difficult match for the Hungarian team. " +
                     "Hungary plays at home. Serbs are not the best nowadays " +
@@ -32,14 +32,10 @@ namespace EventFinderServer.DAL
                     EndTime = Convert.ToDateTime("2020.11.15. 23:00:00"),
                     EventInterest = Interest.WatchSports,
                     EventLanguages = Language.Hungarian,
-                    Messages = new List<Message>
-                    {
-                        new Message(){ Sender = "Peti", Content = "Kecske" },
-                        new Message(){ Sender = "Bálint", Content = "Cica" },
-                    }
+                    Messages = new List<Message> { }
                 },
                 new Event{
-                    Id = 1, Title = "Hiking tour",
+                    Title = "Hiking tour",
                     Description = "Hiking can help you relieve your stress and " +
                     "clear your head for some time. Planning a hike over the " +
                     "weekends can help in reducing your blood pressure and " +
@@ -50,14 +46,10 @@ namespace EventFinderServer.DAL
                     EndTime = Convert.ToDateTime("2020.11.19. 19:00:00"),
                     EventInterest = Interest.Hiking,
                     EventLanguages = Language.English,
-                    Messages = new List<Message>
-                    {
-                        new Message(){ Sender = "Peti", Content = "Kecske" },
-                        new Message(){ Sender = "Bálint", Content = "Cica" },
-                    }
+                    Messages = new List<Message> { }
                 },
                 new Event{
-                    Id = 2 , Title = "Museum tour",
+                    Title = "Museum tour",
                     Description = "The Louvre or the Louvre Museum is the world's " +
                     "largest art museum and a historic monument in Paris, France. " +
                     "The museum is housed in the Louvre Palace, originally built as " +
@@ -72,7 +64,7 @@ namespace EventFinderServer.DAL
                     Messages = new List<Message> { }
                 },
                 new Event{
-                    Id = 3 , Title = "Cooking course",
+                    Title = "Cooking course",
                     Description = "It's safe to say people are cooking at home now more than ever." +
                     " And since we're all stuck inside, world-class chefs to locals in Italy have gone online" +
                     " to teach virtual cooking courses. The best part is, there’s a class for everyone," +
@@ -85,7 +77,7 @@ namespace EventFinderServer.DAL
                     Messages = new List<Message> { }
                 },
                  new Event{
-                    Id = 4 , Title = "Cinema",
+                    Title = "Cinema",
                     Description = "We are pleased to announce that the renovated, redesigned Cinema City Mammut I." +
                      " is waiting for You...furhtermore its brand new VIP cinema section finally opened its doors" +
                      " as well! Watch Avengers: Engame in 3D.",
@@ -96,7 +88,7 @@ namespace EventFinderServer.DAL
                     Messages = new List<Message> { }
                 },
                  new Event{
-                    Id = 5 , Title = "Playing icehockey",
+                    Title = "Playing icehockey",
                     Description = "Ice Hockey is one of the world’s fastest team sports full of skilful handling," +
                      " tactics, speed and determination. Learn how to play this exciting sport and you could join" +
                      " an ice hockey club and compete or simply enjoy ice hockey as a leisure activity, participating" +

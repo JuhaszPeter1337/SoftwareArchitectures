@@ -1,6 +1,7 @@
 using System;
 using EventFinderServer.DAL;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,8 +35,11 @@ namespace EventFinderServer
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<EventFinderDBC>();
-                    InitializeDB.SeedDB(context);
+                    using (var context = services.GetRequiredService<EventFinderDBC>())
+                    {
+                        context.Database.Migrate();
+                        InitializeDB.SeedDB(context);
+                    }
                 }
                 catch (Exception ex)
                 {

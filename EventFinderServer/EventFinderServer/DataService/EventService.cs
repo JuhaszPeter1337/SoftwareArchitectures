@@ -52,9 +52,12 @@ namespace EventFinderServer.DataService
             if (u == null)
                 return;
 
-            var f = u.Favorites.FirstOrDefault(f => f.Id.Equals(eventId));
+            var f = u.Favorites.FirstOrDefault(f => f.Event.Equals(eventId));
             if (EventExists(eventId) && f == null)
+            {
                 u.Favorites.Add(f);
+                _context.SaveChanges();
+            }
         }
 
         public void RemoveFavorite(string username, int eventId)
@@ -63,28 +66,26 @@ namespace EventFinderServer.DataService
             if (u == null)
                 return;
 
-            var f = u.Favorites.FirstOrDefault(f => f.Id.Equals(eventId));
+            var f = u.Favorites.FirstOrDefault(f => f.EventId.Equals(eventId));
             if (EventExists(eventId) && f != null)
+            {
                 u.Favorites.Remove(f);
+                _context.SaveChanges();
+            }
         }
 
-        public List<int> GetFavorites(string username)
+        internal bool AddEvent(EventDTO newevent)
         {
-            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
-            if (u == null)
-                return null;
-
-            List<int> res = new List<int>();
-
-            foreach (var e in _context.Events)
+            try
             {
-                if (u.Favorites.Contains(e))
-                {
-                    res.Add(e.Id);
-                }
+                _context.Events.Add(new Event { Title = newevent.title, EventInterest = newevent.interest, EventLanguages = newevent.languages, BeginTime = Convert.ToDateTime(newevent.beginning), EndTime = Convert.ToDateTime(newevent.ending), Description = newevent.description, Messages = new List<Message>() });
+                _context.SaveChanges();
+                return true;
             }
-
-            return res;
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<User> Login(string username, string password)
@@ -119,7 +120,7 @@ namespace EventFinderServer.DataService
             {
                 if(u.Interests.HasFlag(e.EventInterest) && e.EventLanguages.HasFlag(u.Languages))
                 {
-                    res.Add(e.MakeDTO(u.Favorites.Contains(e)));
+                    res.Add(e.MakeDTO(u.Favorites.Any(f => f.EventId == e.Id)));
                 }
             }
 
@@ -154,7 +155,7 @@ namespace EventFinderServer.DataService
         {
             if (_context.Users.Any(x => x.UserName == user.username))
                 return false;
-            var u = new User { UserName = user.username, Interests = user.interests, Languages = user.languages, Favorites = new List<Event>() };
+            var u = new User { UserName = user.username, Interests = user.interests, Languages = user.languages, Favorites = new List<UserFavorites>() };
             var result = await _userManager.CreateAsync(u, password);
             //if(result.Succeeded)
             //    await _userManager.AddClaimAsync(u, new Claim(ClaimTypes.NameIdentifier, user.username));

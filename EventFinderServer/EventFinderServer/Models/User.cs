@@ -10,14 +10,17 @@ namespace EventFinderServer.Models
     {
         public Interest Interests { get; set; }
         public Language Languages { get; set; }
-        public ICollection<Event> Favorites { get; set; }
+        public ICollection<UserFavorites> Favorites { get; set; }
 
         public ProfileDTO MakeDTO()
         {
-            return new ProfileDTO { username = UserName, 
-                interests = Interests, 
-                languages = Languages, 
-                favorites = Favorites.Select(f => f.Id).ToArray() };
+            return new ProfileDTO
+            {
+                username = UserName,
+                interests = Interests,
+                languages = Languages,
+                favorites = Favorites.Select(f => f.EventId).ToArray()
+            };
         }
     }
 }

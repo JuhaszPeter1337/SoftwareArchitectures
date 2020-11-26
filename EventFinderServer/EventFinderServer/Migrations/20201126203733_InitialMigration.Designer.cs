@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventFinderServer.Migrations
 {
     [DbContext(typeof(EventFinderDBC))]
-    [Migration("20201126182512_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201126203733_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,12 +46,7 @@ namespace EventFinderServer.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Event");
                 });
@@ -148,6 +143,21 @@ namespace EventFinderServer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("EventFinderServer.Models.UserFavorites", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "EventId");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("UserFavorites");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -281,18 +291,30 @@ namespace EventFinderServer.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("EventFinderServer.Models.Event", b =>
-                {
-                    b.HasOne("EventFinderServer.Models.User", null)
-                        .WithMany("Favorites")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("EventFinderServer.Models.Message", b =>
                 {
                     b.HasOne("EventFinderServer.Models.Event", null)
                         .WithMany("Messages")
                         .HasForeignKey("EventId");
+                });
+
+            modelBuilder.Entity("EventFinderServer.Models.UserFavorites", b =>
+                {
+                    b.HasOne("EventFinderServer.Models.Event", "Event")
+                        .WithMany("UserFavorites")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EventFinderServer.Models.User", "User")
+                        .WithMany("Favorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -349,6 +371,8 @@ namespace EventFinderServer.Migrations
             modelBuilder.Entity("EventFinderServer.Models.Event", b =>
                 {
                     b.Navigation("Messages");
+
+                    b.Navigation("UserFavorites");
                 });
 
             modelBuilder.Entity("EventFinderServer.Models.User", b =>

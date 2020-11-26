@@ -30,6 +30,7 @@ namespace EventFinderServer.Models
         public Interest EventInterest { get; set; }
         public Language EventLanguages { get; set; }
         public ICollection<Message> Messages { get; set; }
+        public ICollection<UserFavorites> UserFavorites { get; set; }
 
         public EventDTO MakeDTO(bool favorite = false)
         {

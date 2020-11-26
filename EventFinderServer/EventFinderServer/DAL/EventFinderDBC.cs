@@ -18,6 +18,7 @@ namespace EventFinderServer.DAL
 
         public DbSet<Event> Events { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<UserFavorites> UserFavorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,17 @@ namespace EventFinderServer.DAL
             modelBuilder.Entity<User>()
                         .Property(e => e.Languages)
                         .HasConversion<int>();
+
+            modelBuilder.Entity<UserFavorites>()
+            .HasKey(uf => new { uf.UserId, uf.EventId});
+                modelBuilder.Entity<UserFavorites>()
+                    .HasOne(uf => uf.User)
+                    .WithMany(u => u.Favorites)
+                    .HasForeignKey(uf => uf.UserId);
+                modelBuilder.Entity<UserFavorites>()
+                    .HasOne(uf => uf.Event)
+                    .WithMany(e => e.UserFavorites)
+                    .HasForeignKey(uf => uf.EventId);
 
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Event>().ToTable("Event");
