@@ -45,7 +45,6 @@ async function sendDatas() {
     var user = new Profile();
 
     user.setUsername(usernameValue);
-    user.setPassword(passwordValue);
 
     user.setInterests(interests1, interests2, interests3, interests4, interests5, interests6);
     user.setLanguages(language1, language2, language3, language4, language5, language6);
@@ -53,7 +52,7 @@ async function sendDatas() {
     sessionStorage.setItem("user", user);
 
     try {
-      await connection.invoke("RegisterReq", user);
+      await connection.invoke("RegisterReq", user, passwordValue);
     } catch (err) {
       console.error(err);
       }

@@ -50,7 +50,7 @@ async function sendEvent(){
     event.setLanguages(language1, language2, language3, language4, language5, language6);
 
     try {
-        await connection.invoke("AddEvent", user);
+        await connection.invoke("AddEvent", event);
     } catch (err) {
         console.error(err);
     }

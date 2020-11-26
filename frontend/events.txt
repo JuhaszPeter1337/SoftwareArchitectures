@@ -9,7 +9,7 @@ Beginning: 2020.11.15. 20:45
 
 Ending: 2020.11.15. 23:00
 
-Hungary plays against Serbia. It will be a difficult match for the Hungarian team. Hungary plays at home. Serbs are not the best nowadays but they have a very good footbal team. The football match takes place at Puskas Arena. The price is 15000 Forint. You can buy the ticket online.
+The language is Hungarian. Hungary plays against Serbia. It will be a difficult match for the Hungarian team. Hungary plays at home. Serbs are not the best nowadays but they have a very good footbal team. The football match takes place at Puskas Arena. The price is 15000 Forint. You can buy the ticket online.
 
 
 
@@ -24,17 +24,56 @@ Beginning: 2020.11.18. 08:00
 
 Ending: 2020.11.19. 19:00
 
-Hiking can help you relieve your stress and clear your head for some time. Planning a hike over the weekends can help in reducing your blood pressure and cortisol levels that rise up due to the busy work schedule you have for the whole week. But apart from the physical benefits, hiking is also good food for your soul and here is why.
+The language is English. Hiking can help you relieve your stress and clear your head for some time. Planning a hike over the weekends can help in reducing your blood pressure and cortisol levels that rise up due to the busy work schedule you have for the whole week. But apart from the physical benefits, hiking is also good food for your soul and here is why.
 
 3.
 Title: Museum tour
 
 Interets: museum
 
-Languages: german
+Languages: french
 
 Beginning: 2020.11.24. 14:00
 
 Ending: 2020.11.24. 18:00
 
-The Louvre or the Louvre Museum is the world's largest art museum and a historic monument in Paris, France. The museum is housed in the Louvre Palace, originally built as the Louvre castle in the late 12th to 13th century under Philip II. Remnants of the fortress are visible in the basement of the museum. Due to urban expansion, the fortress eventually lost its defensive function, and in 1546 Francis I converted it into the primary residence of the French Kings.
+The language is French. The Louvre or the Louvre Museum is the world's largest art museum and a historic monument in Paris, France. The museum is housed in the Louvre Palace, originally built as the Louvre castle in the late 12th to 13th century under Philip II. Remnants of the fortress are visible in the basement of the museum. Due to urban expansion, the fortress eventually lost its defensive function, and in 1546 Francis I converted it into the primary residence of the French Kings.
+
+4.
+Title: Cooking course
+
+Interests: Cooking
+
+Languages: Russian
+
+Beginning: 2020.12.06. 8:00
+
+Ending: 2020.12.06. 16:00
+
+The language is Russian. It's safe to say people are cooking at home now more than ever. And since we're all stuck inside, world-class chefs to locals in Italy have gone online to teach virtual cooking courses. The best part is, there’s a class for everyone, including total beginners in the kitchen, families, and even advanced cooks who have more time on their hands.
+
+5.
+Title: Cinema
+
+Interests: Cinema
+
+Languages: German
+
+Beginning: 2020.12.03. 16:30
+
+Ending: 2020.12.03. 19:00
+
+The language is German. We are pleased to announce that the renovated, redesigned Cinema City Mammut I. is waiting for You...furhtermore its brand new VIP cinema section finally opened its doors as well! Watch Avengers: Engame in 3D.
+
+6.
+Title: Playing icehockey
+
+Interests: PlaySports
+
+Languages: Spanish
+
+Beginning: 2020.12.12. 18:00
+
+Ending: 2020.12.12. 20:00
+
+The language is Spanish. Ice Hockey is one of the world’s fastest team sports full of skilful handling, tactics, speed and determination. Learn how to play this exciting sport and you could join an ice hockey club and compete or simply enjoy ice hockey as a leisure activity, participating in games with players of all abilities.

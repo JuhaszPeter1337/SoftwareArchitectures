@@ -64,10 +64,19 @@
                         <input type="text" id="unamei" name="fname" disabled><br><br>
                     </div>
                     <div class="edit-password">
-                        <label for="password" id="passl">Password:</label>
-                        <input type="password" id="passi" name="pass" placeholder="***************" disabled><br><br>
+                        <div class="passwords">
+                        <label for="password" class="passl">Old password:</label>
+                        <input type="password" id="passi-1" name="pass" placeholder="***************" disabled><br><br>
+
+                        <label for="password" class="passl">New password:</label>
+                        <input type="password" id="passi-2" name="pass" placeholder="***************" disabled><br><br>
+
+                        <label for="password" class="passl">Confirm new password:</label>
+                        <input type="password" id="passi-3" name="pass" placeholder="***************" disabled><br><br>
+                        </div>
                         <button class="btn info" type="button" onclick="makePasswordEnable()">Edit</button>
                     </div>
+
 
                     <div class="in-h5">
                         <h5>What are you interested in?</h5>

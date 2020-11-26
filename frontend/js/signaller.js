@@ -97,14 +97,10 @@ app.controller("Controller", ["$scope", function($scope) {
     $scope.sendmessage = async function(id) {
         var login = sessionStorage.getItem("login");
         if(login){
-          var u = sessionStorage.getItem("user");
-          u = u ? JSON.parse(u) : undefined;
-          var uname = u.username;
           var event_id = id;
           var content = document.getElementById('real-comment-' + id).value;
-          var message = {username: uname, content: content};
           try {
-            await connection.invoke("SendMessage", event_id, message);
+            await connection.invoke("SendMessage", event_id, content);
             document.getElementById('real-comment-' + id).value="";
           } catch (err) {
             console.error(err);
@@ -115,12 +111,9 @@ app.controller("Controller", ["$scope", function($scope) {
       $scope.addfavorite = async function(id){
         var login = sessionStorage.getItem("login");
         if(login){
-          var u = sessionStorage.getItem("user");
-          u = u ? JSON.parse(u) : undefined;
-          var uname = u.username;
           var event_id = id;
           try {
-            await connection.invoke("AddFavorite", event_id, uname);
+            await connection.invoke("AddFavorite", event_id);
           } catch (err) {
             console.error(err);
           }
@@ -130,12 +123,9 @@ app.controller("Controller", ["$scope", function($scope) {
       $scope.removefavorite = async function(id){
         var login = sessionStorage.getItem("login");
         if(login){
-          var u = sessionStorage.getItem("user");
-          u = u ? JSON.parse(u) : undefined;
-          var uname = u.username;
           var event_id = id;
           try {
-            await connection.invoke("RemoveFavorite", event_id, uname);
+            await connection.invoke("RemoveFavorite", event_id);
           } catch (err) {
             console.error(err);
           }
@@ -143,5 +133,4 @@ app.controller("Controller", ["$scope", function($scope) {
       };
 
     $scope.events = [];
-    $scope.favorites = [];
 }]);

@@ -9,26 +9,12 @@ class Profile{
         this.username = username;
     }
 
-    getPassword(){
-        return this.password;
-    }
-
-    setPassword(password){
-        this.password = password;
-    }
-
     getInterests(){
         return this.interests;
     }
 
     setInterests(first, second, third, fourth, fifth, sixth){
-        this.interests = [];
-        this.interests[0] = first;
-        this.interests[1] = second;
-        this.interests[2] = third;
-        this.interests[3] = fourth;
-        this.interests[4] = fifth;
-        this.interests[5] = sixth;
+        this.interests = first | second | third | fourth | fifth | sixth;
     }
 
     getLanguages(){
@@ -36,13 +22,7 @@ class Profile{
     }
 
     setLanguages(first, second, third, fourth, fifth, sixth){
-        this.languages = [];
-        this.languages[0] = first;
-        this.languages[1] = second;
-        this.languages[2] = third;
-        this.languages[3] = fourth;
-        this.languages[4] = fifth;
-        this.languages[5] = sixth;
+        this.languages = first | second | third | fourth | fifth | sixth;
     }
 
     getFavorites(){
@@ -94,13 +74,7 @@ class Event{
     }
 
     setInterests(first, second, third, fourth, fifth, sixth){
-        this.interests = [];
-        this.interests[0] = first;
-        this.interests[1] = second;
-        this.interests[2] = third;
-        this.interests[3] = fourth;
-        this.interests[4] = fifth;
-        this.interests[5] = sixth;
+        this.interests = first | second | third | fourth | fifth | sixth;
     }
 
     getLanguages(){
@@ -108,12 +82,24 @@ class Event{
     }
 
     setLanguages(first, second, third, fourth, fifth, sixth){
-        this.languages = [];
-        this.languages[0] = first;
-        this.languages[1] = second;
-        this.languages[2] = third;
-        this.languages[3] = fourth;
-        this.languages[4] = fifth;
-        this.languages[5] = sixth;
+        this.languages = first | second | third | fourth | fifth | sixth;
     }
+}
+
+var interestsEnum = {
+    WatchSports: 1,
+    PlaySports: 2, 
+    Cinema: 4, 
+    Museum: 8, 
+    Hiking: 16,
+    Cooking: 32
+}
+
+var languagesEnum = {
+    English: 1,
+    German: 2, 
+    French: 4, 
+    Spanish: 8, 
+    Russian: 16,
+    Hungarian: 32
 }
