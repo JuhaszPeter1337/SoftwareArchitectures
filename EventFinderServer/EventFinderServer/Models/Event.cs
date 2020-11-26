@@ -34,7 +34,23 @@ namespace EventFinderServer.Models
 
         public EventDTO MakeDTO(bool favorite = false)
         {
-            var res = new EventDTO { event_id = Id, title = Title, description = Description, isfavorite = favorite, beginning = BeginTime.ToString(), ending = EndTime.ToString() };
+            string languages = "";
+            if (EventLanguages.HasFlag(Language.English))
+                languages += "english, ";
+            if (EventLanguages.HasFlag(Language.French))
+                languages += "french, ";
+            if (EventLanguages.HasFlag(Language.German))
+                languages += "german, ";
+            if (EventLanguages.HasFlag(Language.Hungarian))
+                languages += "hungarian, ";
+            if (EventLanguages.HasFlag(Language.Russian))
+                languages += "russian, ";
+            if (EventLanguages.HasFlag(Language.Spanish))
+                languages += "spanish, ";
+            languages = languages.Substring(0, languages.Length - 2);
+            var res = new EventDTO { event_id = Id, title = Title, 
+                description = $"The event available for people who speak {languages}. {Description}",
+                isfavorite = favorite, beginning = BeginTime.ToString(), ending = EndTime.ToString() };
             res.messages = new MessageDTO[Messages.Count];
             res.image = "data:image/jpeg;base64, " + Convert.ToBase64String(File.ReadAllBytes(Path.Combine(ImageRoot, ImageDict[EventInterest])));
 
