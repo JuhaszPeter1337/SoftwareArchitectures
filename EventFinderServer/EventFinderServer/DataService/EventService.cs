@@ -1,245 +1,136 @@
-﻿using EventFinderServer.DTOs;
+﻿using EventFinderServer.DAL;
+using EventFinderServer.DTOs;
 using EventFinderServer.Models;
 using Helpers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EventFinderServer.DataService
 {
     public class EventService
     {
-        static List<User> Users = new List<User> { };
-        static List<Event> Events = new List<Event>
-        {
-            new Event{
-                EventId = 0, Title = "Football match", 
-                Description = "Hungary plays against Serbia. " +
-                "It will be a difficult match for the Hungarian team. " +
-                "Hungary plays at home. Serbs are not the best nowadays " +
-                "but they have a very good footbal team. The football" +
-                " match takes place at Puskas Arena. The price is 15000 " +
-                "Forint. You can buy the ticket online.",
-                ImageLocation = "football.jpg",
-                BeginTime = Convert.ToDateTime("2020.11.15. 20:45:00"), 
-                EndTime = Convert.ToDateTime("2020.11.15. 23:00:00"),
-                EventInterests = new List<Interests> 
-                {
-                    Interests.WatchSports,
-                    Interests.PlaySports
-                },
-                EventLanguages = new List<Languages>
-                {
-                    Languages.Hungarian
-                },
-                Messages = new List<Message>
-                {
-                    new Message(){ Sender = "Peti", Content = "Kecske" },
-                    new Message(){ Sender = "Bálint", Content = "Cica" },
-                }
-            },
-            new Event{
-                EventId = 1, Title = "Hiking tour",
-                Description = "Hiking can help you relieve your stress and " +
-                "clear your head for some time. Planning a hike over the " +
-                "weekends can help in reducing your blood pressure and " +
-                "cortisol levels that rise up due to the busy work schedule" +
-                " you have for the whole week. But apart from the physical " +
-                "benefits, hiking is also good food for your soul and here is why.",
-                ImageLocation = "hiking.jpg",
-                BeginTime = Convert.ToDateTime("2020.11.18. 08:00:00"),
-                EndTime = Convert.ToDateTime("2020.11.19. 19:00:00"),
-                EventInterests = new List<Interests>
-                {
-                    Interests.Hiking
-                },
-                EventLanguages = new List<Languages>
-                {
-                    Languages.English
-                },
-                Messages = new List<Message>
-                {
-                    new Message(){ Sender = "Peti", Content = "Kecske" },
-                    new Message(){ Sender = "Bálint", Content = "Cica" },
-                }
-            },
-            new Event{
-                EventId = 2 , Title = "Museum tour",
-                Description = "The Louvre or the Louvre Museum is the world's " +
-                "largest art museum and a historic monument in Paris, France. " +
-                "The museum is housed in the Louvre Palace, originally built as " +
-                "the Louvre castle in the late 12th to 13th century under Philip II." +
-                " Remnants of the fortress are visible in the basement of the museum. " +
-                "Due to urban expansion, the fortress eventually lost its defensive function, " +
-                "and in 1546 Francis I converted it into the primary residence of the French Kings.",
-                ImageLocation = "museum.jpg",
-                BeginTime = Convert.ToDateTime("2020.11.24. 14:00:00"),
-                EndTime = Convert.ToDateTime("2020.11.24. 18:00:00"),
-                EventInterests = new List<Interests>
-                {
-                    Interests.Museum
-                },
-                EventLanguages = new List<Languages>
-                {
-                    Languages.German
-                },
-                Messages = new List<Message> { }
-            },
-            new Event{
-                EventId = 3 , Title = "Cooking course",
-                Description = "It's safe to say people are cooking at home now more than ever." +
-                " And since we're all stuck inside, world-class chefs to locals in Italy have gone online" +
-                " to teach virtual cooking courses. The best part is, there’s a class for everyone," +
-                " including total beginners in the kitchen, families," +
-                " and even advanced cooks who have more time on their hands.",
-                ImageLocation = "cooking.jpg",
-                BeginTime = Convert.ToDateTime("2020.12.06. 8:00"),
-                EndTime = Convert.ToDateTime("2020.12.06. 16:00"),
-                EventInterests = new List<Interests>
-                {
-                    Interests.Cooking
-                },
-                EventLanguages = new List<Languages>
-                {
-                    Languages.Russian
-                },
-                Messages = new List<Message> { }
-            },
-             new Event{
-                EventId = 4 , Title = "Cinema",
-                Description = "We are pleased to announce that the renovated, redesigned Cinema City Mammut I." +
-                 " is waiting for You...furhtermore its brand new VIP cinema section finally opened its doors" +
-                 " as well! Watch Avengers: Engame in 3D.",
-                ImageLocation = "cinema.jpg",
-                BeginTime = Convert.ToDateTime("2020.12.03. 16:30"),
-                EndTime = Convert.ToDateTime("2020.12.03. 19:00"),
-                EventInterests = new List<Interests>
-                {
-                    Interests.Cinema
-                },
-                EventLanguages = new List<Languages>
-                {
-                    Languages.English
-                },
-                Messages = new List<Message> { }
-            },
-             new Event{
-                EventId = 5 , Title = "Playing icehockey",
-                Description = "Ice Hockey is one of the world’s fastest team sports full of skilful handling," +
-                 " tactics, speed and determination. Learn how to play this exciting sport and you could join" +
-                 " an ice hockey club and compete or simply enjoy ice hockey as a leisure activity, participating" +
-                 " in games with players of all abilities.",
-                ImageLocation = "icehockey.jpg",
-                BeginTime = Convert.ToDateTime("2020.12.12. 18:00"),
-                EndTime = Convert.ToDateTime("2020.12.12. 20:00"),
-                EventInterests = new List<Interests>
-                {
-                    Interests.PlaySports
-                },
-                EventLanguages = new List<Languages>
-                {
-                    Languages.Hungarian
-                },
-                Messages = new List<Message> { }
-            },
-        };
+        private readonly EventFinderDBC _context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        internal bool Edit(ProfileDTO user)
+        public EventService(EventFinderDBC context, UserManager<User> userManager, SignInManager<User> signInManager)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(user.username));
+            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        internal async Task<bool> Edit(string username, ProfileDTO user, ChangePassDTO pass)
+        {
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
             if (u == null)
                 return false;
 
-            if (user.password != null)
-                u.Password = PWHasher.Hash(user.password);
+            IdentityResult res = IdentityResult.Success;
+            if (pass != null)
+            {
+                res = await _userManager.ChangePasswordAsync(u, pass.currentpass, pass.newpass);
+            }
 
-            u.Interests = user.interests;
-            u.Languages = user.languages;
+            if (res.Succeeded)
+            {
+                u.Interests = user.interests;
+                u.Languages = user.languages;
+            }
 
-            return true;
+            return res.Succeeded;
         }
 
-        public void AddFavorite(int eventId, string username)
+        public void AddFavorite(string username, int eventId)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !u.LoggedIn)
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            if (u == null)
                 return;
 
-            if(EventExists(eventId) && !u.Favorites.Contains(eventId))
-                u.Favorites.Add(eventId);
+            var f = u.Favorites.FirstOrDefault(f => f.Id.Equals(eventId));
+            if (EventExists(eventId) && f == null)
+                u.Favorites.Add(f);
         }
 
-        public void RemoveFavorite(int eventId, string username)
+        public void RemoveFavorite(string username, int eventId)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !u.LoggedIn)
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            if (u == null)
                 return;
 
-            if (EventExists(eventId) && u.Favorites.Contains(eventId))
-                u.Favorites.Remove(eventId);
+            var f = u.Favorites.FirstOrDefault(f => f.Id.Equals(eventId));
+            if (EventExists(eventId) && f != null)
+                u.Favorites.Remove(f);
         }
 
         public List<int> GetFavorites(string username)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !u.LoggedIn)
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            if (u == null)
                 return null;
 
             List<int> res = new List<int>();
 
-            foreach (var e in Events)
+            foreach (var e in _context.Events)
             {
-                if (u.Favorites.Contains(e.EventId))
+                if (u.Favorites.Contains(e))
                 {
-                    res.Add(e.EventId);
+                    res.Add(e.Id);
                 }
             }
 
             return res;
         }
 
-        public ProfileDTO Login(string username, string password)
+        public async Task<User> Login(string username, string password)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !PWHasher.Verify(password, u.Password))
-                return null;
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
 
-            u.LoggedIn = true;
-            ProfileDTO p = new ProfileDTO { username = u.Username, password = null, interests = u.Interests, languages = u.Languages, favorites = u.Favorites };
+            var result = await _signInManager.PasswordSignInAsync(username, password, true, lockoutOnFailure: true);
 
-            return p;
+            return u;
+        }
+
+        public User GetUser(string username)
+        {
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            return u;
         }
 
         private bool EventExists(int eventId)
         {
-            return Events.FirstOrDefault(e => e.EventId.Equals(eventId)) != null;
+            return _context.Events.FirstOrDefault(e => e.Id.Equals(eventId)) != null;
         }
 
         public List<EventDTO> GetEvents(string username)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !u.LoggedIn)
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            if (u == null)
                 return null;
 
             List<EventDTO> res = new List<EventDTO>();
 
-            foreach(var e in Events)
+            foreach(var e in _context.Events)
             {
-                if(e.EventInterests.Any(ei => u.Interests[(int)ei] && e.EventLanguages.Any(el => u.Languages[(int)el])))
+                if(u.Interests.HasFlag(e.EventInterest) && e.EventLanguages.HasFlag(u.Languages))
                 {
-                    res.Add(e.MakeDTO(u.Favorites.Contains(e.EventId)));
+                    res.Add(e.MakeDTO(u.Favorites.Contains(e)));
                 }
             }
 
             return res;
         }
 
-        public bool SendMessage(int eventId, MessageDTO message)
+        public bool SendMessage(string username, int eventId, string message)
         {
             try
             {
-                Events[eventId].Messages.Add(new Message { Sender = message.username, Content = message.content });
+                _context.Events.ElementAt(eventId).Messages.Add(new Message { Sender = username, Content = message });
                 return true;
             }
             catch (Exception)
@@ -250,24 +141,24 @@ namespace EventFinderServer.DataService
 
         public bool Logout(string username)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(username));
-            if (u == null || !u.LoggedIn)
+            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            if (u == null)
                 return false;
 
-            u.LoggedIn = false;
+            _signInManager.SignOutAsync();
+            
             return true;
         }
 
-        public bool Register(ProfileDTO user)
+        public async Task<bool> Register(ProfileDTO user, string password)
         {
-            var u = Users.FirstOrDefault(u => u.Username.Equals(user.username));
-            if (u != null)
+            if (_context.Users.Any(x => x.UserName == user.username))
                 return false;
-            User newuser = new User { Id = User.UserId++, Username = user.username, Password = PWHasher.Hash(user.password), LoggedIn = false, Interests = user.interests, Languages = user.languages, Favorites = new List<int>() };
-
-            Users.Add(newuser);
-
-            return true;
+            var u = new User { UserName = user.username, Interests = user.interests, Languages = user.languages, Favorites = new List<Event>() };
+            var result = await _userManager.CreateAsync(u, password);
+            //if(result.Succeeded)
+            //    await _userManager.AddClaimAsync(u, new Claim(ClaimTypes.NameIdentifier, user.username));
+            return result.Succeeded;
         }
     }
 }

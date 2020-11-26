@@ -1,82 +1,172 @@
 ﻿using EventFinderServer.DataService;
 using EventFinderServer.DTOs;
 using EventFinderServer.Models;
-using Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace EventFinderServer.Hubs
 {
     public class DefaultHub : Hub
     {
-        EventService _dataService;
+        private static readonly Dictionary<string, string> ConnectedIds = new Dictionary<string, string>();
 
-        public DefaultHub(EventService service)
+        private readonly EventService _dataService;
+        private readonly AppSettings _appSettings;
+
+        public DefaultHub(EventService service, IOptions<AppSettings> appSettings)
         {
             _dataService = service;
+            _appSettings = appSettings.Value;
+        }
+        
+
+        public override async Task OnConnectedAsync()
+        {
+            ConnectedIds.Add(Context.ConnectionId, "");
+            await base.OnConnectedAsync();
         }
 
-        public async Task SendMessage(int eventId, MessageDTO message)
+        public override async Task OnDisconnectedAsync(Exception ex)
         {
-            bool success = _dataService.SendMessage(eventId, message);
-            if(success)
-                await Clients.All.SendAsync("Message", eventId, message);
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                _dataService.Logout(username);
+            }
+            ConnectedIds.Remove(Context.ConnectionId);
+            await base.OnDisconnectedAsync(ex);
         }
 
-        public async Task AddFavorite(int eventId, string username)
+        [Authorize]
+        public async Task SendMessage(int eventId, string message)
         {
-            _dataService.AddFavorite(eventId, username);
-            await Clients.Caller.SendAsync("AddFav", eventId);
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                bool success = _dataService.SendMessage(username, eventId, message);
+                if (success)
+                    await Clients.All.SendAsync("Message", eventId, message);
+            }
         }
 
-        public async Task RemoveFavorite(int eventId, string username)
+        [Authorize]
+        public async Task AddFavorite(int eventId)
         {
-            _dataService.RemoveFavorite(eventId, username);
-            await Clients.Caller.SendAsync("RemoveFav", eventId);
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                _dataService.AddFavorite(username, eventId);
+                await Clients.Caller.SendAsync("AddFav", eventId);
+            }
         }
 
-        public async Task GetFavorites(string username)
+        [Authorize]
+        public async Task RemoveFavorite(int eventId)
         {
-            var favorites = _dataService.GetFavorites(username);
-            if(favorites != null)
-                await Clients.Caller.SendAsync("Favorites", favorites);
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                _dataService.RemoveFavorite(username, eventId);
+                await Clients.Caller.SendAsync("RemoveFav", eventId);
+            }
         }
 
-        public async Task GetEvents(string username)
+        [Authorize]
+        public async Task GetFavorites()
         {
-            var events = _dataService.GetEvents(username);
-            if(events != null)
-                await Clients.Caller.SendAsync("Events", events.ToArray());
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                var favorites = _dataService.GetFavorites(username);
+                if (favorites != null)
+                    await Clients.Caller.SendAsync("Favorites", favorites);
+            }
         }
 
-        public async Task EditProfile(ProfileDTO user)
+        [Authorize]
+        public async Task GetEvents()
         {
-            bool success = _dataService.Edit(user);
-            await Clients.Caller.SendAsync("Edit", success);
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                var events = _dataService.GetEvents(username);
+                if (events != null)
+                    await Clients.Caller.SendAsync("Events", events.ToArray());
+            }
         }
 
-        public async Task RegisterReq(ProfileDTO user)
+        [Authorize]
+        public async Task EditProfile(ProfileDTO user, ChangePassDTO pass = null)
         {
-            bool success = _dataService.Register(user);
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                bool success = await _dataService.Edit(username, user, pass);
+                await Clients.Caller.SendAsync("Edit", success);
+            }
+        }
+
+        public async Task RegisterReq(ProfileDTO user, string password)
+        {
+            bool success = await _dataService.Register(user, password);
             await Clients.Caller.SendAsync("Registered", success);
         }
 
         public async Task LoginReq(string username, string password)
         {
-            ProfileDTO p = _dataService.Login(username, password);
-            if(p != null)
+            User u = await _dataService.Login(username, password);
+            if(u != null)
+            {
+                ConnectedIds.Add(Context.ConnectionId, username);
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                    new Claim(ClaimTypes.Name, u.UserName)
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var tokenString = tokenHandler.WriteToken(token);
+
+                // return basic user info and authentication token
+                ProfileDTO p = new ProfileDTO
+                {
+                    username = u.UserName,
+                    interests = u.Interests,
+                    languages = u.Languages,
+                    favorites = u.Favorites.Select(x => x.Id).ToArray(),
+                    token = tokenString
+                };
                 await Clients.Caller.SendAsync("Login", p);
+            }
             else
                 await Clients.Caller.SendAsync("LoginFailed");
         }
 
-        public async Task LogoutReq(string username)
+        [Authorize]
+        public async Task LogoutReq()
         {
-            bool success = _dataService.Logout(username);
-            await Clients.Caller.SendAsync("Logout", success);
+            string username = ConnectedIds[Context.ConnectionId];
+            if (!String.IsNullOrEmpty(username))
+            {
+                bool success = _dataService.Logout(username);
+                if (success)
+                    ConnectedIds[Context.ConnectionId] = "";
+                await Clients.Caller.SendAsync("Logout", success);
+            }
         }
     }
 }

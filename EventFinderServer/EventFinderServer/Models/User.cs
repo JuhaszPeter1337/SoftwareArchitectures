@@ -1,24 +1,23 @@
 ﻿using EventFinderServer.DTOs;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EventFinderServer.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public static int UserId = 0;
-
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public bool LoggedIn { get; set; }
-
-        public bool[] Interests { get; set; }
-        public bool[] Languages { get; set; }
-        public List<int> Favorites { get; set; }
+        public Interest Interests { get; set; }
+        public Language Languages { get; set; }
+        public ICollection<Event> Favorites { get; set; }
 
         public ProfileDTO MakeDTO()
         {
-            return new ProfileDTO { username = Username, password = null, interests = Interests, languages = Languages, favorites = Favorites };
+            return new ProfileDTO { username = UserName, 
+                interests = Interests, 
+                languages = Languages, 
+                favorites = Favorites.Select(f => f.Id).ToArray() };
         }
     }
 }

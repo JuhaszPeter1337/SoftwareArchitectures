@@ -10,9 +10,21 @@ using Microsoft.Extensions.Hosting;
 using EventFinderServer.Hubs;
 using EventFinderServer.Models;
 using EventFinderServer.DataService;
+using Microsoft.AspNetCore.Identity;
+using EventFinderServer.DAL;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace EventFinderServer
 {
+    public class AppSettings
+    {
+        public string Secret { get; set; }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -25,8 +37,77 @@ namespace EventFinderServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<EventService>();
+            services.AddDbContext<EventFinderDBC>(options => options.UseSqlServer(Configuration.GetConnectionString("EventFinderDB")), ServiceLifetime.Singleton);
+            
+            services.AddSingleton<IUserIdProvider, UNameUserIdProvider>();
             services.AddSignalR();
+
+            services.AddIdentity<User, IdentityRole>()
+           .AddEntityFrameworkStores<EventFinderDBC>()
+           .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            // configure strongly typed settings objects
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var service = context.HttpContext.RequestServices.GetRequiredService<EventService>();
+                        var username = context.Principal.Identity.Name;
+                        var user = service.GetUser(username);
+                        if (user == null)
+                        {
+                            // return unauthorized if user no longer exists
+                            context.Fail("Unauthorized");
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
+            services.AddScoped<EventService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +129,7 @@ namespace EventFinderServer
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
