@@ -21,8 +21,8 @@ function ckChange(ckType){
 
 async function sendEvent(){
     var title = document.getElementById("titlei").value;
-    var begin = document.getElementById("begini").value;
-    var end = document.getElementById("endi").value;
+    var begin = document.getElementById("begini").valueAsNumber;
+    var end = document.getElementById("endi").valueAsNumber;
     var description = document.getElementById("desi").value;
 
     var interests1 = document.getElementById("progress1").checked;
