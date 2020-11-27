@@ -291,9 +291,11 @@ namespace EventFinderServer.Migrations
 
             modelBuilder.Entity("EventFinderServer.Models.Message", b =>
                 {
-                    b.HasOne("EventFinderServer.Models.Event", null)
+                    b.HasOne("EventFinderServer.Models.Event", "Event")
                         .WithMany("Messages")
                         .HasForeignKey("EventId");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("EventFinderServer.Models.UserFavorites", b =>

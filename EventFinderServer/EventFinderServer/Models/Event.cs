@@ -51,10 +51,10 @@ namespace EventFinderServer.Models
             var res = new EventDTO { event_id = Id, title = Title, 
                 description = $"The event available for people who speak {languages}. {Description}",
                 isfavorite = favorite, beginning = BeginTime.ToString(), ending = EndTime.ToString() };
-            res.messages = new MessageDTO[Messages.Count];
+            res.messages = new MessageDTO[(Messages?.Count).GetValueOrDefault(0)];
             res.image = "data:image/jpeg;base64, " + Convert.ToBase64String(File.ReadAllBytes(Path.Combine(ImageRoot, ImageDict[EventInterest])));
 
-            for (int i = 0; i < Messages.Count; i++)
+            for (int i = 0; i < res.messages.Length; i++)
                 res.messages[i] = Messages.ElementAt(i).MakeDTO();
             return res;
         }

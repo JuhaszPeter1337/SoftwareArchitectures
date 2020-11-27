@@ -40,7 +40,7 @@ namespace EventFinderServer
             services.AddDbContext<EventFinderDBC>(options => options.UseSqlServer(Configuration.GetConnectionString("EventFinderDB")), ServiceLifetime.Singleton);
             
             services.AddSingleton<IUserIdProvider, UNameUserIdProvider>();
-            services.AddSignalR();
+            
 
             services.AddIdentity<User, IdentityRole>()
            .AddEntityFrameworkStores<EventFinderDBC>()
@@ -85,13 +85,27 @@ namespace EventFinderServer
                 {
                     OnTokenValidated = context =>
                     {
-                        var service = context.HttpContext.RequestServices.GetRequiredService<EventService>();
-                        var username = context.Principal.Identity.Name;
-                        var user = service.GetUser(username);
-                        if (user == null)
+                        //var service = context.HttpContext.RequestServices.GetRequiredService<EventService>();
+                        //var username = context.Principal.Identity.Name;
+                        //var user = service.GetUser(username);
+                        //if (user == null)
+                        //{
+                        //    // return unauthorized if user no longer exists
+                        //    context.Fail("Unauthorized");
+                        //}
+                        return Task.CompletedTask;
+                    },
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/default")))
                         {
-                            // return unauthorized if user no longer exists
-                            context.Fail("Unauthorized");
+                            // Read the token out of the query string
+                            context.Token = accessToken;
                         }
                         return Task.CompletedTask;
                     }
@@ -108,6 +122,7 @@ namespace EventFinderServer
             });
 
             services.AddScoped<EventService>();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -130,7 +145,7 @@ namespace EventFinderServer
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

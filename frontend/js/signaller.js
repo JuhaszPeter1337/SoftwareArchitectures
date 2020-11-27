@@ -35,12 +35,20 @@ app.controller("Controller", ["$scope", function($scope) {
 
         connection.on("Login", (user) => {
             if(user != null){
-                localStorage.setItem("login", true);
-                localStorage.setItem("user", JSON.stringify(user));
-                localStorage.setItem("token", user.token)
-                window.location.href = "/main.html";
+              this.user = user;
+              localStorage.setItem("user", JSON.stringify(user));
+              localStorage.setItem("token", user.token)
+              window.location.href = "/main.html";
             }
         });
+
+        connection.on("RedirectLogin", (user) => {
+          if(user != null){
+            this.user = user;
+            localStorage.setItem("user", JSON.stringify(user));
+            window.location.href = "/main.html";
+          }
+      });
 
         connection.on("LoginFailed", () => {
             document.getElementById("error_message_login").innerHTML="Wrong username or password";
@@ -48,8 +56,8 @@ app.controller("Controller", ["$scope", function($scope) {
 
         connection.on("Logout", (success) => {
             if(success){
-                localStorage.setItem("login", false);
                 localStorage.removeItem("user");
+                localStorage.removeItem("token");
                 window.location.href = "/index.html";
             }
         });
@@ -65,29 +73,37 @@ app.controller("Controller", ["$scope", function($scope) {
         });
 
         connection.on("AddFav", (id) => {
-            $scope.events[id].isfavorite = true;
-            $scope.hasFavorite = true;
-            $scope.$apply();
+          e = $scope.events.find(ev => ev.event_id == id);
+          e.isfavorite = true;
+          $scope.hasFavorite = true;
+          $scope.$apply();
         });
 
         connection.on("RemoveFav", (id) => {
-            $scope.events[id].isfavorite = false;
-            $scope.hasFavorite = false;
-            $scope.events.forEach(e => {
-                if(e.isfavorite)
-                    $scope.hasFavorite = true;
-            });
-            $scope.$apply();
+          e = $scope.events.find(ev => ev.event_id == id);
+          e.isfavorite = false;
+          $scope.hasFavorite = false;
+          $scope.events.forEach(e => {
+              if(e.isfavorite)
+                  $scope.hasFavorite = true;
+          });
+          $scope.$apply();
         });
 
-        connection.on("Message", (event_id, message) => {
-            $scope.events[event_id].messages.push(message);
-            $scope.$apply();
+        connection.on("Message", (id, message) => {
+          e = $scope.events.find(ev => ev.event_id == id);
+          e.messages.push(message);
+          $scope.$apply();
         });
 
         connection.on("Edit", (success) => {
           if(success)
               window.location.href = "/main.html";
+        });
+
+        connection.on("GetUser", (user) => {
+          this.user = user;
+          localStorage.setItem("user", JSON.stringify(user));
         });
 
         connection.on("AddEvent", (success) => {
@@ -97,42 +113,34 @@ app.controller("Controller", ["$scope", function($scope) {
     };
 
     $scope.sendmessage = async function(id) {
-        var login = localStorage.getItem("login");
-        if(login){
-          var event_id = id;
-          var content = document.getElementById('real-comment-' + id).value;
-          try {
-            await connection.invoke("SendMessage", event_id, content);
-            document.getElementById('real-comment-' + id).value="";
-          } catch (err) {
-            console.error(err);
-          }
+        var event_id = id;
+        var content = document.getElementById('real-comment-' + id).value;
+        try {
+          await connection.invoke("SendMessage", event_id, content);
+          document.getElementById('real-comment-' + id).value="";
+        } catch (err) {
+          console.error(err);
         }
       };
 
       $scope.addfavorite = async function(id){
-        var login = localStorage.getItem("login");
-        if(login){
-          var event_id = id;
-          try {
-            await connection.invoke("AddFavorite", event_id);
-          } catch (err) {
-            console.error(err);
-          }
+        var event_id = id;
+        try {
+          await connection.invoke("AddFavorite", event_id);
+        } catch (err) {
+          console.error(err);
         }
       };
 
       $scope.removefavorite = async function(id){
-        var login = localStorage.getItem("login");
-        if(login){
-          var event_id = id;
-          try {
-            await connection.invoke("RemoveFavorite", event_id);
-          } catch (err) {
-            console.error(err);
-          }
+        var event_id = id;
+        try {
+          await connection.invoke("RemoveFavorite", event_id);
+        } catch (err) {
+          console.error(err);
         }
       };
 
     $scope.events = [];
 }]);
+

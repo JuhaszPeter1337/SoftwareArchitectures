@@ -39,6 +39,10 @@ namespace EventFinderServer.DAL
                     .WithMany(e => e.UserFavorites)
                     .HasForeignKey(uf => uf.EventId);
 
+            modelBuilder.Entity<Event>()
+            .HasMany(e => e.Messages)
+            .WithOne(m => m.Event);
+
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Event>().ToTable("Event");
             modelBuilder.Entity<Message>().ToTable("Message");

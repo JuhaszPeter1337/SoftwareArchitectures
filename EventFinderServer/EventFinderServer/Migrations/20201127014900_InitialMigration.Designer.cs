@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventFinderServer.Migrations
 {
     [DbContext(typeof(EventFinderDBC))]
-    [Migration("20201126203733_InitialMigration")]
+    [Migration("20201127014900_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -293,9 +293,11 @@ namespace EventFinderServer.Migrations
 
             modelBuilder.Entity("EventFinderServer.Models.Message", b =>
                 {
-                    b.HasOne("EventFinderServer.Models.Event", null)
+                    b.HasOne("EventFinderServer.Models.Event", "Event")
                         .WithMany("Messages")
                         .HasForeignKey("EventId");
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("EventFinderServer.Models.UserFavorites", b =>

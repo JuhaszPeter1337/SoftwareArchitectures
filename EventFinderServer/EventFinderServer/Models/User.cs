@@ -19,7 +19,7 @@ namespace EventFinderServer.Models
                 username = UserName,
                 interests = Interests,
                 languages = Languages,
-                favorites = Favorites.Select(f => f.EventId).ToArray()
+                favorites = Favorites?.Select(f => f.EventId).ToArray()
             };
         }
     }

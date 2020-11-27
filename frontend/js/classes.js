@@ -14,7 +14,7 @@ class Profile{
     }
 
     setInterests(first, second, third, fourth, fifth, sixth){
-        this.interests = first | second | third | fourth | fifth | sixth;
+        this.interests = first | second * 2 | third * 4 | fourth * 8 | fifth * 16 | sixth * 32;
     }
 
     getLanguages(){
@@ -22,7 +22,7 @@ class Profile{
     }
 
     setLanguages(first, second, third, fourth, fifth, sixth){
-        this.languages = first | second | third | fourth | fifth | sixth;
+        this.languages = first | second * 2 | third * 4 | fourth * 8 | fifth * 16 | sixth * 32;
     }
 
     getFavorites(){
@@ -74,7 +74,7 @@ class Event{
     }
 
     setInterests(first, second, third, fourth, fifth, sixth){
-        this.interests = first | second | third | fourth | fifth | sixth;
+        this.interests = first | second * 2 | third * 4 | fourth * 8 | fifth * 16 | sixth * 32;
     }
 
     getLanguages(){
@@ -82,7 +82,7 @@ class Event{
     }
 
     setLanguages(first, second, third, fourth, fifth, sixth){
-        this.languages = first | second | third | fourth | fifth | sixth;
+        this.languages = first | second * 2 | third * 4 | fourth * 8 | fifth * 16 | sixth * 32;
     }
 }
 

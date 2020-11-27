@@ -35,11 +35,9 @@ namespace EventFinderServer
                 var services = scope.ServiceProvider;
                 try
                 {
-                    using (var context = services.GetRequiredService<EventFinderDBC>())
-                    {
-                        context.Database.Migrate();
-                        InitializeDB.SeedDB(context);
-                    }
+                    var context = services.GetRequiredService<EventFinderDBC>();
+                    context.Database.Migrate();
+                    InitializeDB.SeedDB(context);
                 }
                 catch (Exception ex)
                 {
@@ -54,6 +52,7 @@ namespace EventFinderServer
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.CaptureStartupErrors(true);
+                    webBuilder.UseSetting("http_port", "5000");
                     webBuilder.UseStartup<Startup>();
                     webBuilder.ConfigureLogging((hostingContext, logging) =>
                     {

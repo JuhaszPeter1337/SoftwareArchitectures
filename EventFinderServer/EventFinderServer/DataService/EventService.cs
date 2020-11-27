@@ -41,6 +41,7 @@ namespace EventFinderServer.DataService
             {
                 u.Interests = user.interests;
                 u.Languages = user.languages;
+                _context.SaveChanges();
             }
 
             return res.Succeeded;
@@ -49,13 +50,18 @@ namespace EventFinderServer.DataService
         public void AddFavorite(string username, int eventId)
         {
             var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
-            if (u == null)
+            var e = _context.Events.FirstOrDefault(e => e.Id.Equals(eventId));
+            if (u == null || e == null)
                 return;
 
-            var f = u.Favorites.FirstOrDefault(f => f.Event.Equals(eventId));
-            if (EventExists(eventId) && f == null)
+            if (u.Favorites == null)
+                u.Favorites = new List<UserFavorites>();
+
+            var f = u.Favorites?.FirstOrDefault(f => f.EventId.Equals(eventId));
+            if (f == null)
             {
-                u.Favorites.Add(f);
+                var uf = new UserFavorites { Event = e, EventId = e.Id, User = u, UserId = u.Id };
+                u.Favorites.Add(uf);
                 _context.SaveChanges();
             }
         }
@@ -66,7 +72,7 @@ namespace EventFinderServer.DataService
             if (u == null)
                 return;
 
-            var f = u.Favorites.FirstOrDefault(f => f.EventId.Equals(eventId));
+            var f = u.Favorites?.FirstOrDefault(f => f.EventId.Equals(eventId));
             if (EventExists(eventId) && f != null)
             {
                 u.Favorites.Remove(f);
@@ -78,7 +84,7 @@ namespace EventFinderServer.DataService
         {
             try
             {
-                _context.Events.Add(new Event { Title = newevent.title, EventInterest = newevent.interest, EventLanguages = newevent.languages, BeginTime = Convert.ToDateTime(newevent.beginning), EndTime = Convert.ToDateTime(newevent.ending), Description = newevent.description, Messages = new List<Message>() });
+                _context.Events.Add(new Event { Title = newevent.title, EventInterest = newevent.interests, EventLanguages = newevent.languages, BeginTime = Convert.ToDateTime(newevent.beginning), EndTime = Convert.ToDateTime(newevent.ending), Description = newevent.description, Messages = new List<Message>() });
                 _context.SaveChanges();
                 return true;
             }
@@ -92,7 +98,7 @@ namespace EventFinderServer.DataService
         {
             var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
 
-            var result = await _signInManager.PasswordSignInAsync(username, password, true, lockoutOnFailure: true);
+            var result = await _signInManager.CheckPasswordSignInAsync(u, password, false);
 
             return u;
         }
@@ -118,9 +124,11 @@ namespace EventFinderServer.DataService
 
             foreach(var e in _context.Events)
             {
-                if(u.Interests.HasFlag(e.EventInterest) && e.EventLanguages.HasFlag(u.Languages))
+                if(((u.Interests & e.EventInterest) != 0 && (u.Languages & e.EventLanguages) != 0))
                 {
-                    res.Add(e.MakeDTO(u.Favorites.Any(f => f.EventId == e.Id)));
+                    bool? isfavorite = u.Favorites?.Any(f => f.EventId == e.Id);
+                    bool f = isfavorite.HasValue ? isfavorite.Value : false;
+                    res.Add(e.MakeDTO(f));
                 }
             }
 
@@ -131,7 +139,11 @@ namespace EventFinderServer.DataService
         {
             try
             {
-                _context.Events.ElementAt(eventId).Messages.Add(new Message { Sender = username, Content = message });
+                var e = _context.Events.FirstOrDefault(e => e.Id == eventId);
+                if (e.Messages == null)
+                    e.Messages = new List<Message>();
+                e.Messages.Add(new Message { Sender = username, Content = message });
+                _context.SaveChanges();
                 return true;
             }
             catch (Exception)
