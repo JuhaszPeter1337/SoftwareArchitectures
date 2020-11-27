@@ -59,7 +59,7 @@ namespace EventFinderServer.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EventId")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<string>("Sender")
@@ -293,7 +293,9 @@ namespace EventFinderServer.Migrations
                 {
                     b.HasOne("EventFinderServer.Models.Event", "Event")
                         .WithMany("Messages")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
                 });

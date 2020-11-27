@@ -4,6 +4,7 @@ using EventFinderServer.Models;
 using Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +50,7 @@ namespace EventFinderServer.DataService
 
         public void AddFavorite(string username, int eventId)
         {
-            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            var u = _context.Users.Include(u => u.Favorites).FirstOrDefault(u => u.UserName.Equals(username));
             var e = _context.Events.FirstOrDefault(e => e.Id.Equals(eventId));
             if (u == null || e == null)
                 return;
@@ -57,7 +58,7 @@ namespace EventFinderServer.DataService
             if (u.Favorites == null)
                 u.Favorites = new List<UserFavorites>();
 
-            var f = u.Favorites?.FirstOrDefault(f => f.EventId.Equals(eventId));
+            var f = u.Favorites.FirstOrDefault(f => f.EventId.Equals(eventId));
             if (f == null)
             {
                 var uf = new UserFavorites { Event = e, EventId = e.Id, User = u, UserId = u.Id };
@@ -68,7 +69,7 @@ namespace EventFinderServer.DataService
 
         public void RemoveFavorite(string username, int eventId)
         {
-            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            var u = _context.Users.Include(u => u.Favorites).FirstOrDefault(u => u.UserName.Equals(username));
             if (u == null)
                 return;
 
@@ -105,7 +106,7 @@ namespace EventFinderServer.DataService
 
         public User GetUser(string username)
         {
-            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            var u = _context.Users.Include(u => u.Favorites).FirstOrDefault(u => u.UserName.Equals(username));
             return u;
         }
 
@@ -116,13 +117,13 @@ namespace EventFinderServer.DataService
 
         public List<EventDTO> GetEvents(string username)
         {
-            var u = _context.Users.FirstOrDefault(u => u.UserName.Equals(username));
+            var u = _context.Users.Include(u => u.Favorites).FirstOrDefault(u => u.UserName.Equals(username));
             if (u == null)
                 return null;
 
             List<EventDTO> res = new List<EventDTO>();
 
-            foreach(var e in _context.Events)
+            foreach(var e in _context.Events.Include(e => e.Messages))
             {
                 if(((u.Interests & e.EventInterest) != 0 && (u.Languages & e.EventLanguages) != 0))
                 {
@@ -169,8 +170,6 @@ namespace EventFinderServer.DataService
                 return false;
             var u = new User { UserName = user.username, Interests = user.interests, Languages = user.languages, Favorites = new List<UserFavorites>() };
             var result = await _userManager.CreateAsync(u, password);
-            //if(result.Succeeded)
-            //    await _userManager.AddClaimAsync(u, new Claim(ClaimTypes.NameIdentifier, user.username));
             return result.Succeeded;
         }
     }

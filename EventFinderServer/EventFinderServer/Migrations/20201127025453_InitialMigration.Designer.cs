@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventFinderServer.Migrations
 {
     [DbContext(typeof(EventFinderDBC))]
-    [Migration("20201127014900_InitialMigration")]
+    [Migration("20201127025453_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,7 @@ namespace EventFinderServer.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EventId")
+                    b.Property<int>("EventId")
                         .HasColumnType("int");
 
                     b.Property<string>("Sender")
@@ -295,7 +295,9 @@ namespace EventFinderServer.Migrations
                 {
                     b.HasOne("EventFinderServer.Models.Event", "Event")
                         .WithMany("Messages")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
                 });

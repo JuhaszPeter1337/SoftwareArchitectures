@@ -11,6 +11,8 @@ namespace EventFinderServer.Models
         public int Id { get; set; }
         public string Sender { get; set; }
         public string Content { get; set; }
+
+        public int EventId { get; set; }
         public Event Event { get; set; }
 
         public MessageDTO MakeDTO()

@@ -24,24 +24,22 @@ namespace EventFinderServer.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
-                        .Property(e => e.Languages)
-                        .HasConversion<int>();
-
             modelBuilder.Entity<UserFavorites>()
-            .HasKey(uf => new { uf.UserId, uf.EventId});
-                modelBuilder.Entity<UserFavorites>()
-                    .HasOne(uf => uf.User)
-                    .WithMany(u => u.Favorites)
-                    .HasForeignKey(uf => uf.UserId);
-                modelBuilder.Entity<UserFavorites>()
-                    .HasOne(uf => uf.Event)
-                    .WithMany(e => e.UserFavorites)
-                    .HasForeignKey(uf => uf.EventId);
+                .HasKey(uf => new { uf.UserId, uf.EventId});
+            modelBuilder.Entity<UserFavorites>()
+                .HasOne(uf => uf.User)
+                .WithMany(u => u.Favorites)
+                .HasForeignKey(uf => uf.UserId);
+            modelBuilder.Entity<UserFavorites>()
+                .HasOne(uf => uf.Event)
+                .WithMany(e => e.UserFavorites)
+                .HasForeignKey(uf => uf.EventId);
 
             modelBuilder.Entity<Event>()
-            .HasMany(e => e.Messages)
-            .WithOne(m => m.Event);
+                .HasMany(e => e.Messages)
+                .WithOne(m => m.Event)
+                .HasForeignKey(k => k.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Event>().ToTable("Event");

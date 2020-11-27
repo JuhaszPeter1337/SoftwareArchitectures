@@ -27,6 +27,7 @@ namespace EventFinderServer.Hubs
             _appSettings = appSettings.Value;
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task SendMessage(int eventId, string message)
         {
             string username = Context.User.Identity.Name;
@@ -38,6 +39,7 @@ namespace EventFinderServer.Hubs
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task AddEvent(EventDTO newevent)
         {
             string username = Context.User.Identity.Name;
@@ -49,6 +51,7 @@ namespace EventFinderServer.Hubs
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task AddFavorite(int eventId)
         {
             string username = Context.User.Identity.Name;
@@ -59,6 +62,7 @@ namespace EventFinderServer.Hubs
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task RemoveFavorite(int eventId)
         {
             string username = Context.User.Identity.Name;
@@ -81,6 +85,7 @@ namespace EventFinderServer.Hubs
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task GetUser()
         {
             string username = Context.User.Identity.Name;
@@ -92,6 +97,7 @@ namespace EventFinderServer.Hubs
             }
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task EditProfile(ProfileDTO user, ChangePassDTO pass = null)
         {
             string username = Context.User.Identity.Name;
@@ -108,6 +114,7 @@ namespace EventFinderServer.Hubs
             await Clients.Caller.SendAsync("Registered", success);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task Login()
         {
             string username = Context.User.Identity.Name;
@@ -165,6 +172,7 @@ namespace EventFinderServer.Hubs
                 await Clients.Caller.SendAsync("LoginFailed");
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task LogoutReq()
         {
             string username = Context.User.Identity.Name;
