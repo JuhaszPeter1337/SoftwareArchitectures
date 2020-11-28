@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -85,7 +86,10 @@ namespace EventFinderServer.DataService
         {
             try
             {
-                _context.Events.Add(new Event { Title = newevent.title, EventInterest = newevent.interests, EventLanguages = newevent.languages, BeginTime = Convert.ToDateTime(newevent.beginning), EndTime = Convert.ToDateTime(newevent.ending), Description = newevent.description, Messages = new List<Message>() });
+                _context.Events.Add(new Event { Title = newevent.title, EventInterest = newevent.interests, EventLanguages = newevent.languages,
+                    BeginTime = DateTime.ParseExact(newevent.beginning, "yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture),
+                    EndTime = DateTime.ParseExact(newevent.ending, "yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture),
+                    Description = newevent.description, Messages = new List<Message>() });
                 _context.SaveChanges();
                 return true;
             }
