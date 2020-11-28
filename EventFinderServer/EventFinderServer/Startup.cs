@@ -85,14 +85,6 @@ namespace EventFinderServer
                 {
                     OnTokenValidated = context =>
                     {
-                        //var service = context.HttpContext.RequestServices.GetRequiredService<EventService>();
-                        //var username = context.Principal.Identity.Name;
-                        //var user = service.GetUser(username);
-                        //if (user == null)
-                        //{
-                        //    // return unauthorized if user no longer exists
-                        //    context.Fail("Unauthorized");
-                        //}
                         return Task.CompletedTask;
                     },
                     OnMessageReceived = context =>
@@ -145,7 +137,7 @@ namespace EventFinderServer
             app.UseRouting();
 
             app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

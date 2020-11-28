@@ -10,21 +10,4 @@ namespace EventFinderServer.Models
     public enum Interest { WatchSports = 1, PlaySports = 2, Cinema = 4, Museum = 8, Hiking = 16, Cooking = 32 }
     [Flags]
     public enum Language { English = 1, German = 2, French = 4, Spanish = 8, Russian = 16, Hungarian = 32 }
-
-
-    /*
-     * Enum.GetValues(typeof(Language)).Cast<Language>().Where(e => (Languages & e) == e).ToArray()
-     * 
-    public class CInterest
-    {
-        [Key]
-        public Interest Interest { get; set; }
-    }
-
-    public class CLanguage
-    {
-        [Key]
-        public Language Language { get; set; }
-    }
-    */
 }
