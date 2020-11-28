@@ -50,7 +50,7 @@ class Event{
     }
 
     setBegin(begin){
-        this.begin = begin;
+        this.beginning = begin;
     }
 
     getEnd(){
@@ -58,7 +58,7 @@ class Event{
     }
 
     setEnd(end){
-        this.end = end;
+        this.ending = end;
     }
 
     getDescription(){

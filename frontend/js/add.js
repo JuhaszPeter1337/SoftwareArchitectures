@@ -1,3 +1,13 @@
+var isFirefox = typeof InstallTrigger !== 'undefined';
+
+if(isFirefox){
+    document.getElementById("begini").type = 'text';
+    document.getElementById("endi").type = 'text';
+    document.getElementById("f1").innerHTML = '(yyyy-MM-ddThh:mm)';
+    document.getElementById("f2").innerHTML = '(yyyy-MM-ddThh:mm)';
+}
+
+
 function ckChange(ckType){
     var ckName = document.getElementsByName(ckType.name);
     var checked = document.getElementById(ckType.id);
@@ -21,8 +31,8 @@ function ckChange(ckType){
 
 async function sendEvent(){
     var title = document.getElementById("titlei").value;
-    var begin = document.getElementById("begini").valueAsNumber;
-    var end = document.getElementById("endi").valueAsNumber;
+    var begin = document.getElementById("begini").value;
+    var end = document.getElementById("endi").value;
     var description = document.getElementById("desi").value;
 
     var interests1 = document.getElementById("progress1").checked;

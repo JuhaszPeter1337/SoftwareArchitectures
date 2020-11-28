@@ -354,7 +354,7 @@ h6{
     display: flex;
 }
 
-#format{
+.format{
   color: white;
   margin-top: 3px;
   margin-left: 20px;
