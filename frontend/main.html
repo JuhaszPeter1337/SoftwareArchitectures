@@ -4,108 +4,106 @@
     <title>Event Finder</title>
 
     <link rel="shortcut icon" type="image/png" href="favicon.ico"/>
-    
     <!--Bootsrap 4 CDN-->
-    <link rel="stylesheet" href="src/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-      
-      <!--Fontawesome CDN-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+		<link rel="stylesheet" href="src/bootstrap.min.css"/>
+		
+		<!--Fontawesome CDN-->
+		<link rel="stylesheet" href="src/all.css"/>
 
     <!--Custom styles-->
-    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/main.css"/>
   </head>
 
   <body ng-app="App" ng-controller="Controller" ng-init="init()">
-      <header>
-        <nav role="navigation">
-              <div id="menuToggle">
-                
-                <input type="checkbox" />
-                
-                <span></span>
-                <span></span>
-                <span></span>
-                
-                <ul id="menu">
-                  <a href="/main.html"><li>Home</li></a>
-                  <a href="/add.html"><li>Add new event</li></a>
-                  <a href="/editprofile.html"><li>Edit profile</li></a>
-                  <a href="/favorites.html"><li>Favorites</li></a>
-                  <a><li id="log-li" onclick="logout()">Logout</li></a>
-                </ul>
+    <header>
+      <nav role="navigation">
+            <div id="menuToggle">
+              
+              <input type="checkbox" />
+              
+              <span></span>
+              <span></span>
+              <span></span>
+              
+              <ul id="menu">
+                <a href="/main.html"><li>Home</li></a>
+                <a href="/add.html"><li>Add new event</li></a>
+                <a href="/editprofile.html"><li>Edit profile</li></a>
+                <a href="/favorites.html"><li>Favorites</li></a>
+                <a><li id="log-li" onclick="logout()">Logout</li></a>
+              </ul>
+            </div>
+
+            <div class="logo_pic">
+                <img src="img/icon.JPG" width="60" height="60">
+                Event Finder
+            </div>
+          </nav>
+    </header>
+
+    <div class="outside">
+      <div class="inside">
+        
+        <div class="card" ng-repeat="item in events">
+          <div class="card-header">
+              <div class="card-title">
+                <h5>{{ item.title }}</h5>
               </div>
 
-              <div class="logo_pic">
-                  <img src="img/icon.JPG" width="60" height="60">
-                  Event Finder
+              <div class="card-image">
+                <img id="event-image" ng-src="{{item.image}}">
               </div>
-            </nav>
-      </header>
+          </div>
 
-      <div class="outside">
-          <div class="inside">
-            
-            <div class="card" ng-repeat="item in events">
-              <div class="card-header">
-                  <div class="card-title">
-                    <h5>{{ item.title }}</h5>
-                  </div>
+          <div class="card-datetime">
+            <div class="card-beginning">
+              <h5>{{ item.beginning }}</h5>
+            </div>
 
-                  <div class="card-image">
-                    <img id="event-image" ng-src="{{item.image}}">
-                  </div>
-              </div>
+            <div class="card-ending">
+                <h5>{{ item.ending }}</h5>
+            </div>
+          </div>
 
-              <div class="card-datetime">
-                <div class="card-beginning">
-                  <h5>{{ item.beginning }}</h5>
+          <div class="card-description">
+              <h5>{{ item.description }}</h5>
+          </div>
+
+          <div class="add-to-favorites">
+            <h5 ng-show="!item.isfavorite">Do you like this event? Don't forget to add to your favorites!<form ng-submit="addfavorite(item.event_id)"> Click <button type="submit">here</button> to add to your favorites!</form></h5>
+            <h5 ng-show="item.isfavorite">This event is in your favorites! Remember it is starting at {{item.beginning}}!<form ng-submit="removefavorite(item.event_id)"> Click <button type="submit">here</button> to remove it from your favorites!</form></h5>
+          </div>
+
+          <div class="comment-section">
+            <h5>Comment section:</h5>
+            <div class="comment-header" ng-repeat="msg in item.messages">
+                <div class="comment-user">
+                  <h6>{{ msg.username }}</h6>
                 </div>
-
-                <div class="card-ending">
-                    <h5>{{ item.ending }}</h5>
-                </div>
-              </div>
-
-              <div class="card-description">
-                  <h5>{{ item.description }}</h5>
-              </div>
-
-              <div class="add-to-favorites">
-                <h5 ng-show="!item.isfavorite">Do you like this event? Don't forget to add to your favorites!<form ng-submit="addfavorite(item.event_id)"> Click <button type="submit">here</button> to add to your favorites!</form></h5>
-                <h5 ng-show="item.isfavorite">This event is in your favorites! Remember it is starting at {{item.beginning}}!<form ng-submit="removefavorite(item.event_id)"> Click <button type="submit">here</button> to remove it from your favorites!</form></h5>
-              </div>
-
-              <div class="comment-section">
-                <h5>Comment section:</h5>
-                <div class="comment-header" ng-repeat="msg in item.messages">
-                    <div class="comment-user">
-                      <h6>{{ msg.username }}</h6>
-                    </div>
-                    <div class="comment">
-                      <h6>{{ msg.content }}</h6>
-                    </div>
-                </div>
-
-                  <div class="write-comment">
-                    <form ng-submit="sendmessage(item.event_id)">
-                      <input type="text" id="{{ 'real-comment-' + item.event_id }}" class="form-control" placeholder="Write comment...">
-                      <input type="submit" style="position: absolute; left: -9999px"/>
-                    </form>
-                  </div>
+                <div class="comment">
+                  <h6>{{ msg.content }}</h6>
                 </div>
             </div>
-            <div ng-show="!events.length" style="text-align: center;position: relative;top: 50%;">No events for now</div>
-          </div>
-        </div>
-      </div>
 
-      <script src="src/angular.min.js" integrity="sha512-7oYXeK0OxTFxndh0erL8FsjGvrl2VMDor6fVqzlLGfwOQQqTbYsGPv4ZZ15QHfSk80doyaM0ZJdvkyDcVO7KFA==" crossorigin="anonymous"></script>
-      <script src="src/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-      <script src="src/bootstrap.min.js" integrity="sha512-0z9zJIjxQaDVzlysxlaqkZ8L9jh8jZ2d54F3Dn36Y0a8C6eI/RFOME/tLCFJ42hfOxdclfa29lPSNCmX5ekxnw==" crossorigin="anonymous"></script>
-      <script src="src/signalr.min.js" integrity="sha512-ZXVDgmav/cHVcGSkk8d9tG6VOTimgXSKxSE9JJL1C+bJddikUgQtUvCovaZGsJ2xYUVKiIxpQ2qGQ67q7kXE3A==" crossorigin="anonymous"></script>
-      <script src="js/main.js"></script>
-      <script src="js/logout.js"></script>
-      <script src="js/signaller.js"></script>
+              <div class="write-comment">
+                <form ng-submit="sendmessage(item.event_id)">
+                  <input type="text" id="{{ 'real-comment-' + item.event_id }}" class="form-control" placeholder="Write comment...">
+                  <input type="submit" style="position: absolute; left: -9999px"/>
+                </form>
+              </div>
+            </div>
+        </div>
+        <div ng-show="!events.length" style="text-align: center;position: relative;top: 50%;">No events for now</div>
+      </div>
+    </div>
+
+    <script src="src/angular.min.js"></script>
+    <script src="src/jquery.min.js"></script>
+    <script src="src/bootstrap.min.js"></script>
+    <script src="src/signalr.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/logout.js"></script>
+    <script src="js/signaller.js"></script>
 
   </body>
 </html>
