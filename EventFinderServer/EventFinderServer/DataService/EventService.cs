@@ -1,7 +1,6 @@
 ﻿using EventFinderServer.DAL;
 using EventFinderServer.DTOs;
 using EventFinderServer.Models;
-using Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
